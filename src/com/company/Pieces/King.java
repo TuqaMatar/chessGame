@@ -1,13 +1,30 @@
 package com.company.Pieces;
 
-public class King extends Piece{
-    @Override
-    void isMoveLegal() {
+import com.company.PieceColor;
+import com.company.Position;
 
+public class King extends Piece{
+
+    public King(PieceColor pieceColor) {
+        super( pieceColor);
+    }
+
+    public void isInCheck(){
     }
 
     @Override
-    void move(String currentPosition , String nextPosition) {
+   public boolean isMoveLegal(Position currentPosition , Position nextPosition) {
+        return true;
+    }
 
+    @Override
+    public void move(Position currentPosition, Position nextPosition) {
+
+    }
+
+
+    @Override
+    public String toString() {
+        return "Ki";
     }
 }

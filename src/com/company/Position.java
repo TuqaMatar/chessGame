@@ -1,0 +1,60 @@
+package com.company;
+
+import com.company.Pieces.Piece;
+
+public class Position {
+    /**
+     * in chess ,a file represents a column and a rank represents a row
+     * so for example e5 the file is e and rank is 5 .
+     */
+
+    char file;
+    char rank;
+    Piece piece;
+    boolean hasPiece;
+
+    public Position(char file, char rank) {
+        this.file = file;
+        this.rank = rank;
+    }
+
+    public Position(String position) {
+        this.file = position.charAt(0);
+        this.rank = position.charAt(1);
+    }
+
+    public Position(String position ,Piece piece , boolean hasPiece) {
+        this.file = position.charAt(0);
+        this.rank = position.charAt(1);
+        this.piece = piece;
+        this.hasPiece = true;
+    }
+
+    public boolean isEmpty(){
+        return hasPiece;
+    }
+
+    public char getFile() {
+        return file;
+    }
+
+    public char getRank() {
+        return rank;
+    }
+
+    public Piece getPiece() {
+        return piece;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(this ==obj)
+            return true;
+        if(obj == null || !(obj instanceof Position))
+            return false;
+        Position other = (Position) obj;
+        if(this.file == other.file && this.rank ==other.rank)
+            return true;
+        return false;
+    }
+}
