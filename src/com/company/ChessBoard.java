@@ -61,7 +61,6 @@ public class ChessBoard {
             if (i % 8 == 0) {
                 System.out.println();
             }
-
             System.out.print(positions.get(i).piece + " ");
         }
         System.out.println();

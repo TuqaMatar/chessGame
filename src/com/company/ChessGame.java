@@ -35,13 +35,33 @@ public class ChessGame {
         return true;
     }
 
+    public boolean isLegalMove(Piece chosenPiece, Position currentPosition , Position nextPosition)
+    {
+        if(chosenPiece == null)
+        {
+            System.out.println("no piece exists in "+ currentPosition.getFile()+currentPosition.getRank() + ", try again");
+            return false;
+        }
+        if(!chosenPiece.isMoveLegal(currentPosition,nextPosition)){
+            System.out.println("Move is not legal for : " + chosenPiece);
+            return false;
+        }
+        if(chosenPiece.getPieceColor() == PieceColor.WHITE && currentPlayer==Player.BlACK ){
+            System.out.println("Black Player cannot move white pieces , try again");
+            return false;
+        }
+        else if(chosenPiece.getPieceColor() == PieceColor.BlACK && currentPlayer==Player.WHITE ) {
+            System.out.println("White Player cannot move black pieces, try again");
+            return false;
+        }
+        return true;
+    }
 
     public void start() {
         ChessBoard chessBoard = new ChessBoard();
-        chessBoard.printBoard();
-
+        //chessBoard.printBoard();
         int moves =0;
-
+        boolean wrongMove = false;
         Scanner scanner = new Scanner(System.in);
         currentPlayer = Player.WHITE;
         String move;
@@ -55,28 +75,37 @@ public class ChessGame {
 
             if(!isNotationCorrect(scanCurrentPosition,scanNextPosition))
                 continue;
-            else
-            {
-                 currentPosition = new Position(scanCurrentPosition);
-                 nextPosition = new Position(scanNextPosition);
-            }
+
+            currentPosition = new Position(scanCurrentPosition);
+            nextPosition = new Position(scanNextPosition);
+
             for(int i = 0 ; i<chessBoard.size() ; i++)
             {
-                Piece chosenPiece ;;
-                if(chessBoard.positions.get(i).equals(currentPosition))
-                {
-                    chosenPiece= chessBoard.positions.get(i).getPiece();
-                    if(!chosenPiece.isMoveLegal(currentPosition,nextPosition)){}
-                        System.out.println("Move is not legal for : " + chosenPiece);
-                    if(chosenPiece.getPieceColor() == PieceColor.WHITE && currentPlayer==Player.BlACK )
-                        System.out.println("Black Player cannot move white pieces");
-                    else if(chosenPiece.getPieceColor() == PieceColor.BlACK && currentPlayer==Player.WHITE )
-                        System.out.println("White Player cannot move black pieces");
+                    Piece chosenPiece ;
+                    Position boardPiece = chessBoard.positions.get(i);
+                    if(boardPiece.equals(currentPosition))
+                    {
+                        currentPosition= chessBoard.positions.get(i);
+                    if(!isLegalMove(currentPosition.getPiece(),currentPosition,nextPosition)){
+                        wrongMove = true;
+                        break;
+                    }
+                    else wrongMove = false;
 
+                    for(int j = 0 ; j<chessBoard.size() ; j++){
+                        if(chessBoard.positions.get(j).equals(nextPosition)){
+                            nextPosition= chessBoard.positions.get(i);
 
+                            nextPosition.setPiece(boardPiece.getPiece());
+                            break;
+                        }
+                    }
+                    currentPosition.setPiece(null);
                 }
-
             }
+
+            if(wrongMove)
+                continue;
 
             switchPlayer(currentPlayer);
             moves++;

@@ -10,8 +10,14 @@ public class Pawn extends Piece {
 
     @Override
    public boolean isMoveLegal(Position currentPosition , Position nextPosition) {
-        if(currentPosition.getFile() == nextPosition.getFile() && nextPosition.getRank()==currentPosition.getRank()+1)
-            return true;
+        switch(currentPosition.getPiece().getPieceColor()){
+            case WHITE:
+                if(currentPosition.getFile() == nextPosition.getFile() && nextPosition.getRank()==currentPosition.getRank()+1)
+                    return true;
+            case BlACK:
+                if(currentPosition.getFile() == nextPosition.getFile() && nextPosition.getRank()==currentPosition.getRank()-1)
+                    return true;
+        }
         return false;
     }
 

@@ -46,6 +46,10 @@ public class Position {
         return piece;
     }
 
+    public void setPiece(Piece piece) {
+        this.piece = piece;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if(this ==obj)
