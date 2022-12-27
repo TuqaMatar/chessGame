@@ -14,6 +14,11 @@ public class King extends Piece{
 
     @Override
    public boolean isMoveLegal(Position currentPosition , Position nextPosition) {
+        if(nextPosition.getRank() == currentPosition.getRank()+1
+                || nextPosition.getRank() == currentPosition.getRank()-1
+                || nextPosition.getFile() ==currentPosition.getFile()+1
+                || nextPosition.getFile() == currentPosition.getFile()-1)
+            return true;
         return false;
     }
 
