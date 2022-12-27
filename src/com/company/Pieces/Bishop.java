@@ -10,7 +10,12 @@ public class Bishop extends Piece{
 
     @Override
     public boolean isMoveLegal(Position currentPosition , Position nextPosition) {
-      return false;
+       int distanceBetweenFiles = Math.abs(nextPosition.getFile() - currentPosition.getFile());
+       int distanceBetweenRanks = Math.abs(nextPosition.getRank() -currentPosition.getRank());
+       if(distanceBetweenFiles == distanceBetweenRanks && distanceBetweenFiles>0)
+           return true;
+       return false;
+
     }
 
     @Override
