@@ -10,7 +10,8 @@ public class Castle extends Piece{
 
     @Override
    public boolean isMoveLegal(Position currentPosition , Position nextPosition) {
-        if((currentPosition.getFile() == nextPosition.getFile() || currentPosition.getRank()==nextPosition.getRank())
+        if((currentPosition.getFile() == nextPosition.getFile()
+                || currentPosition.getRank()==nextPosition.getRank())
         && !currentPosition.equals(nextPosition)
         )
             return true;
