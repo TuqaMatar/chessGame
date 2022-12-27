@@ -7,11 +7,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ChessBoard {
-    final int CHESS_BOARD_SIZE;
+    final int CHESS_BOARD_SIZE=64;
     ArrayList<Position> positions;
 
     public ChessBoard() {
-        CHESS_BOARD_SIZE = 64;
         positions = initializeBoard();
     }
 

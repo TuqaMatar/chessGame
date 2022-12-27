@@ -10,7 +10,7 @@ public class Bishop extends Piece{
 
     @Override
     public boolean isMoveLegal(Position currentPosition , Position nextPosition) {
-      return true;
+      return false;
     }
 
     @Override

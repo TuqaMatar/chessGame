@@ -94,7 +94,7 @@ public class ChessGame {
 
                     for(int j = 0 ; j<chessBoard.size() ; j++){
                         if(chessBoard.positions.get(j).equals(nextPosition)){
-                            nextPosition= chessBoard.positions.get(i);
+                            nextPosition= chessBoard.positions.get(j);
 
                             nextPosition.setPiece(boardPiece.getPiece());
                             break;

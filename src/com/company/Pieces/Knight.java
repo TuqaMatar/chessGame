@@ -10,7 +10,7 @@ public class Knight extends Piece{
 
     @Override
     public boolean isMoveLegal(Position currentPosition , Position nextPosition) {
-        return true;
+        return false;
     }
     @Override
     public void move(Position currentPosition, Position nextPosition) {
