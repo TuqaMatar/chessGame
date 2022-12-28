@@ -10,6 +10,11 @@ public class Pawn extends Piece {
 
     @Override
    public boolean isMoveLegal(Position currentPosition , Position nextPosition) {
+        if(isBlocked(currentPosition,nextPosition))
+        {
+            System.out.println("illegal move , piece is blocked by :" + nextPosition.getPiece());
+            return false;
+        }
         switch(currentPosition.getPiece().getPieceColor()){
             case WHITE:
                 if(currentPosition.getFile() == nextPosition.getFile() && nextPosition.getRank()==currentPosition.getRank()+1)
@@ -19,6 +24,11 @@ public class Pawn extends Piece {
                     return true;
         }
         return false;
+    }
+
+    @Override
+    public boolean isBlocked(Position currentPosition, Position nextPosition) {
+        return !nextPosition.isEmpty();
     }
 
     @Override

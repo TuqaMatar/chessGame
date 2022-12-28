@@ -31,7 +31,7 @@ public class Position {
     }
 
     public boolean isEmpty(){
-        return hasPiece;
+        return piece == null;
     }
 
     public char getFile() {

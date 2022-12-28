@@ -86,17 +86,19 @@ public class ChessGame {
                     if(boardPiece.equals(currentPosition))
                     {
                         currentPosition= chessBoard.positions.get(i);
-                    if(!isLegalMove(currentPosition.getPiece(),currentPosition,nextPosition)){
-                        wrongMove = true;
-                        break;
-                    }
-                    else wrongMove = false;
 
                     for(int j = 0 ; j<chessBoard.size() ; j++){
                         if(chessBoard.positions.get(j).equals(nextPosition)){
                             nextPosition= chessBoard.positions.get(j);
 
-                            nextPosition.setPiece(boardPiece.getPiece());
+                            if(!isLegalMove(currentPosition.getPiece(),currentPosition,nextPosition)){
+                                wrongMove = true;
+                                break;
+                            }
+                            else wrongMove = false;
+
+
+                            nextPosition.setPiece(currentPosition.getPiece());
                             break;
                         }
                     }

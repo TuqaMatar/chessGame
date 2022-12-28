@@ -10,6 +10,8 @@ public abstract class Piece {
         this.pieceColor = pieceColor;
     }
     public abstract boolean isMoveLegal(Position currentPosition , Position nextPosition);
+    public abstract boolean isBlocked(Position currentPosition , Position nextPosition);
+
     public abstract void move(Position currentPosition , Position nextPosition);
 
     public PieceColor getPieceColor() {

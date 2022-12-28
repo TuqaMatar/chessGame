@@ -21,6 +21,11 @@ public class Queen extends Piece {
     }
 
     @Override
+    public boolean isBlocked(Position currentPosition, Position nextPosition) {
+        return false;
+    }
+
+    @Override
     public void move(Position currentPosition, Position nextPosition) {
         // TODO document why this method is empty
     }

@@ -1,0 +1,3 @@
+keep list of positions that are under attack ( this is for checking checks )
+consider create a class called move; consider for instance in the future we want to add a piece that moves like a horse AND bishop 
+re-visit the duck problem i think its the same .
