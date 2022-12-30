@@ -10,12 +10,19 @@ public class Queen extends Piece {
     }
 
     @Override
-    public boolean isMoveLegal(Position currentPosition, Position nextPosition) {
+    public boolean isBlocked(Position currentPosition, Position nextPosition, ChessBoard board) {
         return false;
     }
 
     @Override
-    public boolean isBlocked(Position currentPosition, Position nextPosition, ChessBoard chessBoard) {
+    public boolean isMoveLegal(Position currentPosition , Position nextPosition) {
+        int distanceBetweenFiles = Math.abs(nextPosition.getFile() - currentPosition.getFile());
+        int distanceBetweenRanks = Math.abs(nextPosition.getRank() -currentPosition.getRank());
+        if(distanceBetweenFiles == distanceBetweenRanks && distanceBetweenFiles>0
+        || (currentPosition.getFile() == nextPosition.getFile()
+                || currentPosition.getRank()==nextPosition.getRank())
+                && !currentPosition.equals(nextPosition))
+            return true;
         return false;
     }
 
