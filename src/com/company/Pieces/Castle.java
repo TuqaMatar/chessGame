@@ -20,7 +20,20 @@ public class Castle extends Piece{
     }
 
     @Override
-    public boolean isBlocked(Position currentPosition, Position nextPosition , ChessBoard chessBoard) {
+    public boolean isBlocked(Position currentPosition, Position nextPosition , ChessBoard board) {
+        boolean isMovingRanks = currentPosition.getRank()> nextPosition.getRank() || currentPosition.getRank()<nextPosition.getRank();
+        int pathLength = isMovingRanks? Math.abs(currentPosition.getRank() - nextPosition.getRank()) : Math.abs(currentPosition.getFile()-nextPosition.getFile());
+        boolean isMovingForward = currentPosition.getRank() < nextPosition.getRank();
+        for(int i=0 ; i<pathLength ; i++)
+        {
+            char file = isMovingForward?(char) (currentPosition.getFile()+i):(char) (currentPosition.getFile()-i);
+            char rank = isMovingForward?(char) (currentPosition.getRank()+i):(char) (currentPosition.getRank()-i);
+
+            if(!board.getPositionAt(file,rank).isEmpty())
+                if(board.getPositionAt(file,rank).getPiece().getPieceColor()== currentPosition.getPiece().pieceColor)
+                    return true;
+
+        }
         return false;
     }
 
