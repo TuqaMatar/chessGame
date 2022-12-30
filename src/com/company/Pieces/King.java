@@ -25,7 +25,7 @@ public class King extends Piece{
 
     @Override
     public boolean isBlocked(Position currentPosition, Position nextPosition, ChessBoard chessBoard) {
-        return false;
+        return !nextPosition.isEmpty() && nextPosition.getPiece().getPieceColor()==currentPosition.getPiece().pieceColor;
     }
 
     @Override
