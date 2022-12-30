@@ -7,11 +7,21 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ChessBoard {
-    final int CHESS_BOARD_SIZE=64;
+    final int CHESS_BOARD_SIZE = 64;
     ArrayList<Position> positions;
 
     public ChessBoard() {
         positions = initializeBoard();
+    }
+
+    public Position getPositionAt(char file, int rank) {
+
+        for (int i = 0; i < positions.size(); i++) {
+            if (positions.get(i).file == file && positions.get(i).rank == rank) {
+                return positions.get(i);
+            }
+        }
+        return null;
     }
 
     ArrayList<Position> initializeBoard() {

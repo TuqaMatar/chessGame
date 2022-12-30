@@ -8,6 +8,7 @@ import java.util.regex.*;
 
 public class ChessGame {
     Player currentPlayer;
+    ChessBoard chessBoard ;
 
     public  void switchPlayer(Player currentPlayer) {
         if (currentPlayer == Player.WHITE)
@@ -35,8 +36,9 @@ public class ChessGame {
         return true;
     }
 
-    public boolean isLegalMove(Piece chosenPiece, Position currentPosition , Position nextPosition)
+    public boolean isLegalMove( Position currentPosition , Position nextPosition )
     {
+        Piece chosenPiece = currentPosition.getPiece();
         if(chosenPiece == null)
         {
             System.out.println("no piece exists in "+ currentPosition.getFile()+currentPosition.getRank() + ", try again");
@@ -44,6 +46,13 @@ public class ChessGame {
         }
         if(!chosenPiece.isMoveLegal(currentPosition,nextPosition)){
             System.out.println("Move is not legal for : " + chosenPiece);
+            return false;
+        }
+        if(chosenPiece.isBlocked(currentPosition,nextPosition,chessBoard))
+        {
+            System.out.println("Move is not legal for : " + chosenPiece);
+            System.out.println("BLOCKED");
+
             return false;
         }
         if(chosenPiece.getPieceColor() == PieceColor.WHITE && currentPlayer==Player.BlACK ){
@@ -58,7 +67,7 @@ public class ChessGame {
     }
 
     public void start() {
-        ChessBoard chessBoard = new ChessBoard();
+         chessBoard = new ChessBoard();
         //chessBoard.printBoard();
         int moves =0;
         boolean wrongMove = false;
@@ -91,7 +100,7 @@ public class ChessGame {
                         if(chessBoard.positions.get(j).equals(nextPosition)){
                             nextPosition= chessBoard.positions.get(j);
 
-                            if(!isLegalMove(currentPosition.getPiece(),currentPosition,nextPosition)){
+                            if(!isLegalMove(currentPosition,nextPosition)){
                                 wrongMove = true;
                                 break;
                             }
@@ -99,15 +108,17 @@ public class ChessGame {
 
 
                             nextPosition.setPiece(currentPosition.getPiece());
+                            currentPosition.setPiece(null);
                             break;
                         }
                     }
-                    currentPosition.setPiece(null);
                 }
             }
 
             if(wrongMove)
                 continue;
+
+
 
             switchPlayer(currentPlayer);
             moves++;

@@ -1,5 +1,6 @@
 package com.company.Pieces;
 
+import com.company.ChessBoard;
 import com.company.PieceColor;
 import com.company.Position;
 
@@ -19,7 +20,7 @@ public class Castle extends Piece{
     }
 
     @Override
-    public boolean isBlocked(Position currentPosition, Position nextPosition) {
+    public boolean isBlocked(Position currentPosition, Position nextPosition , ChessBoard chessBoard) {
         return false;
     }
 
