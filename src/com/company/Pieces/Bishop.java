@@ -26,12 +26,38 @@ public class Bishop extends Piece{
     @Override
     public boolean isBlocked(Position currentPosition, Position nextPosition, ChessBoard board) {
         int pathLength = Math.abs(currentPosition.getFile() - nextPosition.getFile());
+
         boolean isMovingForward = currentPosition.getRank() < nextPosition.getRank();
+        boolean isMovingRight = currentPosition.getFile()< nextPosition.getFile();
+        char file = 0, rank = 0;
 
             for(int i =1 ; i<= pathLength ; i++)
             {
-                char file = isMovingForward?(char) (currentPosition.getFile()+i):(char) (currentPosition.getFile()-i);
-                char rank = isMovingForward?(char) (currentPosition.getRank()+i):(char) (currentPosition.getRank()-i);
+
+                if(isMovingForward)
+                {
+                    rank= (char)  (currentPosition.getRank()+i);
+
+                    if(isMovingRight)
+                    {
+                        file= (char) (currentPosition.getFile()+i) ;
+                    }
+                    else {
+                        file = (char) (currentPosition.getFile()-i);
+                    }
+
+                }
+                else {
+                    file = (char) (currentPosition.getFile()+i);
+                    if(isMovingRight)
+                        {
+                            rank = (char) (currentPosition.getRank()-1);
+                        }
+                        else
+                        {
+                            rank= (char)  (currentPosition.getRank()+i);
+                        }
+                }
 
                 if(!board.getPositionAt(file,rank).isEmpty())
                     if(board.getPositionAt(file,rank).getPiece().getPieceColor()== currentPosition.getPiece().pieceColor)

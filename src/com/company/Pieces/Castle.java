@@ -22,18 +22,47 @@ public class Castle extends Piece{
     @Override
     public boolean isBlocked(Position currentPosition, Position nextPosition , ChessBoard board) {
         boolean isMovingRanks = currentPosition.getRank()> nextPosition.getRank() || currentPosition.getRank()<nextPosition.getRank();
-        int pathLength = isMovingRanks? Math.abs(currentPosition.getRank() - nextPosition.getRank()) : Math.abs(currentPosition.getFile()-nextPosition.getFile());
         boolean isMovingForward = currentPosition.getRank() < nextPosition.getRank();
-        for(int i=0 ; i<pathLength ; i++)
-        {
-            char file = isMovingForward?(char) (currentPosition.getFile()+i):(char) (currentPosition.getFile()-i);
-            char rank = isMovingForward?(char) (currentPosition.getRank()+i):(char) (currentPosition.getRank()-i);
+        int pathLength = isMovingRanks? Math.abs(currentPosition.getRank() - nextPosition.getRank()) : Math.abs(currentPosition.getFile()-nextPosition.getFile());
 
-            if(!board.getPositionAt(file,rank).isEmpty())
-                if(board.getPositionAt(file,rank).getPiece().getPieceColor()== currentPosition.getPiece().pieceColor)
-                    return true;
+        boolean isMovingRight = currentPosition.getFile()< nextPosition.getFile();
+        boolean isMovingVertically = currentPosition.getRank()> nextPosition.getRank() || currentPosition.getRank()<nextPosition.getRank();
 
-        }
+         for(int i=1 ; i<=pathLength ; i++)
+            {
+
+                char file = 0 , rank =0 ;
+                if(isMovingVertically)
+                {
+                    if(isMovingForward)
+                    {
+                        file = (char)currentPosition.getFile();
+                        rank = (char)(currentPosition.getRank()+i);
+                    }
+                    else {
+                        file = (char)currentPosition.getFile();
+                        rank = (char)(currentPosition.getRank()-i);
+                    }
+                }
+                else
+                {
+                    if(isMovingRight)
+                    {
+                        file = (char)(currentPosition.getFile()+i);
+                        rank = (char)currentPosition.getRank();
+                    }
+                    else {
+                        file = (char)(currentPosition.getFile()-i);
+                        rank = (char)(currentPosition.getRank());
+                    }
+                }
+
+                if(!board.getPositionAt(file,rank).isEmpty())
+                    if(board.getPositionAt(file,rank).getPiece().getPieceColor()== currentPosition.getPiece().pieceColor)
+                        return true;
+            }
+
+
         return false;
     }
 
