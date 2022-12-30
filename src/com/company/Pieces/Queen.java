@@ -117,6 +117,11 @@ public class Queen extends Piece {
     }
 
     @Override
+    public void updateAttackedPieces(Position currentPosition) {
+
+    }
+
+    @Override
     public String toString() {
         return "Qu";
     }

@@ -36,6 +36,23 @@ public class Pawn extends Piece {
     }
 
     @Override
+    public void updateAttackedPieces(Position currentPosition) {
+        switch(currentPosition.getPiece().getPieceColor()){
+            case WHITE: {
+                attackedPieces.add(new Position((char)(currentPosition.getFile()+1) , (char)(currentPosition.getRank()+1)));
+                attackedPieces.add(new Position((char)(currentPosition.getFile()+-1) , (char)(currentPosition.getRank()+1)));
+            }
+                break;
+            case BlACK:
+            {
+                attackedPieces.add(new Position((char)(currentPosition.getFile()+1) , (char)(currentPosition.getRank()-1)));
+                attackedPieces.add(new Position((char)(currentPosition.getFile()+-1) , (char)(currentPosition.getRank()-1)));
+            }
+                break;
+        }
+    }
+
+    @Override
     public String toString() {
         return "Pa";
     }

@@ -11,12 +11,9 @@ public class Castle extends Piece{
 
     @Override
    public boolean isMoveLegal(Position currentPosition , Position nextPosition) {
-        if((currentPosition.getFile() == nextPosition.getFile()
-                || currentPosition.getRank()==nextPosition.getRank())
-        && !currentPosition.equals(nextPosition)
-        )
-            return true;
-        return false;
+        return (currentPosition.getFile() == nextPosition.getFile()
+                || currentPosition.getRank() == nextPosition.getRank())
+                && !currentPosition.equals(nextPosition);
     }
 
     @Override
@@ -62,13 +59,17 @@ public class Castle extends Piece{
                         return true;
             }
 
-
         return false;
     }
 
     @Override
     public void move(Position currentPosition, Position nextPosition) {
         // TODO document why this method is empty
+    }
+
+    @Override
+    public void updateAttackedPieces(Position currentPosition) {
+
     }
 
 

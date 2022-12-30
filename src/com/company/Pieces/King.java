@@ -33,6 +33,11 @@ public class King extends Piece{
 
     }
 
+    @Override
+    public void updateAttackedPieces(Position currentPosition) {
+
+    }
+
 
     @Override
     public String toString() {

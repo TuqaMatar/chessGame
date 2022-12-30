@@ -66,6 +66,11 @@ public class ChessGame {
         return true;
     }
 
+    public boolean isKingChecked(){
+
+        return false ;
+    }
+
     public void start() {
          chessBoard = new ChessBoard();
         //chessBoard.printBoard();
@@ -92,6 +97,7 @@ public class ChessGame {
             {
                     Piece chosenPiece ;
                     Position boardPiece = chessBoard.positions.get(i);
+
                     if(boardPiece.equals(currentPosition))
                     {
                         currentPosition= chessBoard.positions.get(i);
@@ -106,8 +112,11 @@ public class ChessGame {
                             }
                             else wrongMove = false;
 
+                            Piece movedPiece = currentPosition.getPiece();
+                            nextPosition.setPiece(movedPiece);
+                            movedPiece.updateAttackedPieces(nextPosition);
 
-                            nextPosition.setPiece(currentPosition.getPiece());
+
                             currentPosition.setPiece(null);
                             break;
                         }

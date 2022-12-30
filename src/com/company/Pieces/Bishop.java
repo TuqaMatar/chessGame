@@ -73,6 +73,11 @@ public class Bishop extends Piece{
     }
 
     @Override
+    public void updateAttackedPieces(Position currentPosition) {
+
+    }
+
+    @Override
     public String toString() {
         return "Bi";
     }

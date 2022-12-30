@@ -76,7 +76,6 @@ public class ChessBoard {
 
     }
 
-
     public ArrayList<Position> getPositions() {
         return positions;
     }
