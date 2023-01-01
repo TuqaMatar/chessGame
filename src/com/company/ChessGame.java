@@ -1,6 +1,7 @@
 package com.company;
 
 import com.company.Pieces.Piece;
+import sun.rmi.runtime.Log;
 
 import java.util.List;
 import java.util.Scanner;
@@ -81,6 +82,7 @@ public class ChessGame {
         String move;
         Position currentPosition , nextPosition;
 
+        chessBoard.updateAttackedPieces();
         while (moves<50) {
             System.out.print("Enter next move (" + currentPlayer + ") :");
             move = scanner.next();
@@ -114,10 +116,11 @@ public class ChessGame {
 
                             Piece movedPiece = currentPosition.getPiece();
                             nextPosition.setPiece(movedPiece);
-                            movedPiece.updateAttackedPieces(nextPosition);
-
-
+                            //movedPiece.updateAttackedPieces(nextPosition);
                             currentPosition.setPiece(null);
+                            chessBoard.updateAttackedPieces();
+
+                            System.out.println("here");
                             break;
                         }
                     }

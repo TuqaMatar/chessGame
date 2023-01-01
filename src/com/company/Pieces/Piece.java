@@ -32,4 +32,6 @@ public abstract class Piece {
     }
 
     public abstract void updateAttackedPieces (Position currentPosition);
+    public abstract void updateAttackedPieces (Position currentPosition , ChessBoard chessBoard);
+
 }

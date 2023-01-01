@@ -31,9 +31,7 @@ public class Pawn extends Piece {
     }
 
     @Override
-   public void move(Position currentPosition, Position nextPosition) {
-
-    }
+   public void move(Position currentPosition, Position nextPosition) {}
 
     @Override
     public void updateAttackedPieces(Position currentPosition) {
@@ -49,6 +47,61 @@ public class Pawn extends Piece {
                 attackedPieces.add(new Position((char)(currentPosition.getFile()+-1) , (char)(currentPosition.getRank()-1)));
             }
                 break;
+        }
+    }
+
+    @Override
+    public void updateAttackedPieces(Position currentPosition, ChessBoard chessBoard) {
+        char rank ;
+        char file ;
+        attackedPieces.clear();
+
+        switch(currentPosition.getPiece().getPieceColor()){
+            case WHITE: {
+                Position position = chessBoard.getPositionAt((char)(currentPosition.getFile()+1),(char)(currentPosition.getRank()+1));
+                if(position!=null)
+                {
+                    if(position.isEmpty())
+                    {attackedPieces.add(position);}
+                    else if(position.getPiece().getPieceColor() !=pieceColor)
+                        attackedPieces.add(position);
+
+                }
+
+                position=chessBoard.getPositionAt((char)(currentPosition.getFile()+1),(char)(currentPosition.getRank()+1));
+                if(position!=null)
+                {
+                    if(position.isEmpty())
+                    {attackedPieces.add(position);}
+                    else if(position.getPiece().getPieceColor() !=pieceColor)
+                        attackedPieces.add(position);
+
+                }
+            }
+            break;
+            case BlACK:
+            {
+                Position position = chessBoard.getPositionAt((char)(currentPosition.getFile()+1),(char)(currentPosition.getRank()-1));
+                if(position!=null)
+                {
+                    if(position.isEmpty())
+                    {attackedPieces.add(position);}
+                    else if(position.getPiece().getPieceColor() !=pieceColor)
+                        attackedPieces.add(position);
+
+                }
+                position=chessBoard.getPositionAt((char)(currentPosition.getFile()+-1),(char)(currentPosition.getRank()-1));
+                if(position!=null)
+                {
+                    if(position.isEmpty())
+                    {attackedPieces.add(position);}
+                    else if(position.getPiece().getPieceColor() !=pieceColor)
+                        attackedPieces.add(position);
+
+                }
+
+            }
+            break;
         }
     }
 
