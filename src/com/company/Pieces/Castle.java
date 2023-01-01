@@ -88,8 +88,8 @@ public class Castle extends Piece{
                 else {
                     if (chessBoard.getPositionAt(file, (char)(i+'0')).getPiece().pieceColor != pieceColor) {
                         attackedPieces.add(chessBoard.getPositionAt(file, (char) (i)));
-                    } else
-                        break;
+                    }
+                    break;
                 }
             }
 
@@ -102,8 +102,8 @@ public class Castle extends Piece{
                 else {
                     if (chessBoard.getPositionAt(file, (char)(i+'0')).getPiece().pieceColor != pieceColor) {
                         attackedPieces.add(chessBoard.getPositionAt(file, (char)(i+'0')));
-                    } else
-                        break;
+                    }
+                    break;
                 }
             }
 
@@ -119,8 +119,8 @@ public class Castle extends Piece{
                 else {
                     if (chessBoard.getPositionAt(i, rank).getPiece().pieceColor != pieceColor) {
                         attackedPieces.add(chessBoard.getPositionAt(i, rank));
-                    } else
-                        break;
+                    }
+                    break;
                 }
             }
 
@@ -135,8 +135,8 @@ public class Castle extends Piece{
                 else {
                     if (chessBoard.getPositionAt(i, rank).getPiece().pieceColor != pieceColor) {
                         attackedPieces.add(chessBoard.getPositionAt(i, rank));
-                    } else
-                        break;
+                    }
+                    break;
                 }
 
 
