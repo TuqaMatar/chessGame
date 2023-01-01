@@ -72,11 +72,8 @@ public class Bishop extends Piece{
     }
 
     @Override
-    public void updateAttackedPieces(Position currentPosition) {
+    public void updateAttackedPieces(Position currentPosition) {}
 
-
-
-    }
 
     @Override
     public void updateAttackedPieces(Position currentPosition, ChessBoard chessBoard) {
