@@ -33,7 +33,6 @@ public class Bishop extends Piece{
 
             for(int i =1 ; i<= pathLength ; i++)
             {
-
                 if(isMovingForward)
                 {
                     rank= (char)  (currentPosition.getRank()+i);
@@ -75,11 +74,113 @@ public class Bishop extends Piece{
     @Override
     public void updateAttackedPieces(Position currentPosition) {
 
+
+
     }
 
     @Override
     public void updateAttackedPieces(Position currentPosition, ChessBoard chessBoard) {
+        attackedPieces.clear();
+        //check all right diagonal forward
+      Position testPosition = chessBoard.getPositionAt((char)(currentPosition.getFile()+1) ,currentPosition.getRank()+1);
+      if(testPosition!=null){
 
+          while(testPosition!=null)
+          {
+
+              Position positionToCheck = chessBoard.getPositionAt((chessBoard.getPositionAt(testPosition.getFile() ,testPosition.getRank())));
+              if(positionToCheck !=null)
+              {
+                  if (positionToCheck.isEmpty())
+                      attackedPieces.add(positionToCheck);
+                  else {
+                      if (positionToCheck.getPiece().pieceColor != pieceColor) {
+                          attackedPieces.add(positionToCheck);
+                      }
+                      break;
+                  }
+
+              }
+              testPosition = chessBoard.getPositionAt((char)(testPosition.getFile()+1) ,testPosition.getRank()+1);
+              System.out.println("test bishop");
+          }
+      }
+
+        //check all right diagonal backward
+        testPosition = chessBoard.getPositionAt((char)(currentPosition.getFile()+1) ,currentPosition.getRank()-1);
+        if(testPosition!=null){
+
+            while(testPosition!=null)
+            {
+
+                Position positionToCheck = chessBoard.getPositionAt((chessBoard.getPositionAt(testPosition.getFile() ,testPosition.getRank())));
+                if(positionToCheck !=null)
+                {
+                    if (positionToCheck.isEmpty())
+                        attackedPieces.add(positionToCheck);
+                    else {
+                        if (positionToCheck.getPiece().pieceColor != pieceColor) {
+                            attackedPieces.add(positionToCheck);
+                        }
+                        break;
+
+                    }
+
+                }
+                testPosition = chessBoard.getPositionAt((char)(testPosition.getFile()+1) ,testPosition.getRank()-1);
+                System.out.println("test bishop");
+            }
+        }
+        //check all left diagonal forward
+         testPosition = chessBoard.getPositionAt((char)(currentPosition.getFile()-1) ,currentPosition.getRank()+1);
+        if(testPosition!=null){
+
+            while(testPosition!=null)
+            {
+
+                Position positionToCheck = chessBoard.getPositionAt((chessBoard.getPositionAt(testPosition.getFile() ,testPosition.getRank())));
+                if(positionToCheck !=null)
+                {
+                    if (positionToCheck.isEmpty())
+                        attackedPieces.add(positionToCheck);
+                    else {
+                        if (positionToCheck.getPiece().pieceColor != pieceColor) {
+                            attackedPieces.add(positionToCheck);
+                        }
+                        break;
+
+                    }
+
+                }
+                testPosition = chessBoard.getPositionAt((char)(testPosition.getFile()-1) ,testPosition.getRank()+1);
+                System.out.println("test bishop");
+            }
+        }
+
+        //check all left diagonal backward
+        testPosition = chessBoard.getPositionAt((char)(currentPosition.getFile()-1) ,currentPosition.getRank()-1);
+        if(testPosition!=null){
+
+            while(testPosition!=null)
+            {
+
+                Position positionToCheck = chessBoard.getPositionAt((chessBoard.getPositionAt(testPosition.getFile() ,testPosition.getRank())));
+                if(positionToCheck !=null)
+                {
+                    if (positionToCheck.isEmpty())
+                        attackedPieces.add(positionToCheck);
+                    else {
+                        if (positionToCheck.getPiece().pieceColor != pieceColor) {
+                            attackedPieces.add(positionToCheck);
+                        }
+                        break;
+
+                    }
+
+                }
+                testPosition = chessBoard.getPositionAt((char)(testPosition.getFile()-1) ,testPosition.getRank()-1);
+            }
+        }
     }
 
     @Override
