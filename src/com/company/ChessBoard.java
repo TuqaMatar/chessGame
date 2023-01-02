@@ -98,8 +98,20 @@ public class ChessBoard {
     {
         for(int i = 0; i<positions.size(); i++)
         {
-            if(!positions.get(i).isEmpty())
-            positions.get(i).getPiece().updateAttackedPieces(positions.get(i) , this);
+            if(!positions.get(i).isEmpty()){
+                positions.get(i).getPiece().updateAttackedPieces(positions.get(i) , this);
+
+            }
+        }
+    }
+
+    public void updatePiecesLegalMoves() {
+        for(int i = 0; i<positions.size(); i++)
+        {
+            if(!positions.get(i).isEmpty()){
+                positions.get(i).getPiece().updateLegalMoves(positions.get(i) , this);
+
+            }
         }
     }
 }

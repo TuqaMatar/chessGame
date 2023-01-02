@@ -15,9 +15,16 @@ public abstract class Piece {
 
     ArrayList<Position> attackedPieces;
 
+    public ArrayList<Position> getLegalMoves() {
+        return legalMoves;
+    }
+
+    ArrayList<Position> legalMoves;
+
     public Piece(PieceColor pieceColor){
         this.pieceColor = pieceColor;
         attackedPieces = new ArrayList<>();
+        legalMoves = new ArrayList<>();
     }
     public abstract boolean isBlocked(Position currentPosition , Position nextPosition , ChessBoard board);
 
@@ -33,5 +40,6 @@ public abstract class Piece {
 
     public abstract void updateAttackedPieces (Position currentPosition);
     public abstract void updateAttackedPieces (Position currentPosition , ChessBoard chessBoard);
+    public abstract void updateLegalMoves(Position currentPosition,ChessBoard chessBoard);
 
 }

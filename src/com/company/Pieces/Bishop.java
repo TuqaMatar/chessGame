@@ -25,45 +25,56 @@ public class Bishop extends Piece{
 
     @Override
     public boolean isBlocked(Position currentPosition, Position nextPosition, ChessBoard board) {
-        int pathLength = Math.abs(currentPosition.getFile() - nextPosition.getFile());
+//        int pathLength = Math.abs(currentPosition.getFile() - nextPosition.getFile());
+//
+//        boolean isMovingForward = currentPosition.getRank() < nextPosition.getRank();
+//        boolean isMovingRight = currentPosition.getFile()< nextPosition.getFile();
+//        char file = 0, rank = 0;
+//
+//            for(int i =1 ; i<= pathLength ; i++)
+//            {
+//                if(isMovingForward)
+//                {
+//                    rank= (char)  (currentPosition.getRank()+i);
+//
+//                    if(isMovingRight)
+//                    {
+//                        file= (char) (currentPosition.getFile()+i) ;
+//                    }
+//                    else {
+//                        file = (char) (currentPosition.getFile()-i);
+//                    }
+//
+//                }
+//                else {
+//                    file = (char) (currentPosition.getFile()+i);
+//                    if(isMovingRight)
+//                        {
+//                            rank = (char) (currentPosition.getRank()-1);
+//                        }
+//                        else
+//                        {
+//                            rank= (char)  (currentPosition.getRank()+i);
+//                        }
+//                }
+//
+//
+//                if(board.getPositionAt(file,rank)!=null){
+//                    if(!board.getPositionAt(file,rank).isEmpty())
+//                        if(board.getPositionAt(file,rank).getPiece().getPieceColor()== currentPosition.getPiece().pieceColor)
+//                            return true;
+//                }
+//
+//            }
 
-        boolean isMovingForward = currentPosition.getRank() < nextPosition.getRank();
-        boolean isMovingRight = currentPosition.getFile()< nextPosition.getFile();
-        char file = 0, rank = 0;
+         for(Position position :attackedPieces )
+         {
+             if(position.equals(nextPosition))
+                 return false;
 
-            for(int i =1 ; i<= pathLength ; i++)
-            {
-                if(isMovingForward)
-                {
-                    rank= (char)  (currentPosition.getRank()+i);
+         }
 
-                    if(isMovingRight)
-                    {
-                        file= (char) (currentPosition.getFile()+i) ;
-                    }
-                    else {
-                        file = (char) (currentPosition.getFile()-i);
-                    }
-
-                }
-                else {
-                    file = (char) (currentPosition.getFile()+i);
-                    if(isMovingRight)
-                        {
-                            rank = (char) (currentPosition.getRank()-1);
-                        }
-                        else
-                        {
-                            rank= (char)  (currentPosition.getRank()+i);
-                        }
-                }
-
-                if(!board.getPositionAt(file,rank).isEmpty())
-                    if(board.getPositionAt(file,rank).getPiece().getPieceColor()== currentPosition.getPiece().pieceColor)
-                        return true;
-            }
-
-        return false;
+        return true;
     }
 
     @Override
@@ -72,7 +83,9 @@ public class Bishop extends Piece{
     }
 
     @Override
-    public void updateAttackedPieces(Position currentPosition) {}
+    public void updateAttackedPieces(Position currentPosition) {
+
+    }
 
 
     @Override
@@ -99,7 +112,7 @@ public class Bishop extends Piece{
 
               }
               testPosition = chessBoard.getPositionAt((char)(testPosition.getFile()+1) ,testPosition.getRank()+1);
-              System.out.println("test bishop");
+
           }
       }
 
@@ -125,7 +138,6 @@ public class Bishop extends Piece{
 
                 }
                 testPosition = chessBoard.getPositionAt((char)(testPosition.getFile()+1) ,testPosition.getRank()-1);
-                System.out.println("test bishop");
             }
         }
         //check all left diagonal forward
@@ -150,7 +162,6 @@ public class Bishop extends Piece{
 
                 }
                 testPosition = chessBoard.getPositionAt((char)(testPosition.getFile()-1) ,testPosition.getRank()+1);
-                System.out.println("test bishop");
             }
         }
 
@@ -178,6 +189,11 @@ public class Bishop extends Piece{
                 testPosition = chessBoard.getPositionAt((char)(testPosition.getFile()-1) ,testPosition.getRank()-1);
             }
         }
+    }
+
+    @Override
+    public void updateLegalMoves(Position currentPosition ,ChessBoard chessBoard) {
+        legalMoves= attackedPieces;
     }
 
     @Override

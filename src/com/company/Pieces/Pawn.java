@@ -27,7 +27,6 @@ public class Pawn extends Piece {
     @Override
     public boolean isBlocked(Position currentPosition, Position nextPosition, ChessBoard chessBoard) {
         return !nextPosition.isEmpty() && nextPosition.getPiece().getPieceColor()==currentPosition.getPiece().pieceColor;
-
     }
 
     @Override
@@ -106,6 +105,21 @@ public class Pawn extends Piece {
     }
 
     @Override
+    public void updateLegalMoves(Position currentPosition, ChessBoard chessBoard) {
+        legalMoves.clear();
+        switch(currentPosition.getPiece().getPieceColor()){
+            case WHITE: {
+                legalMoves.add(new Position((char)(currentPosition.getFile()) , (char)(currentPosition.getRank()+1)));
+            }
+            break;
+            case BlACK:
+            {
+                legalMoves.add(new Position((char)(currentPosition.getFile()) , (char)(currentPosition.getRank()-1)));
+            }
+            break;
+        }
+    }
+
     public String toString() {
         return "Pa";
     }

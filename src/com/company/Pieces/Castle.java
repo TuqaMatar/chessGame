@@ -150,5 +150,9 @@ public class Castle extends Piece{
         return "Ca";
     }
 
+    @Override
+    public void updateLegalMoves(Position currentPosition,ChessBoard chessBoard) {
+        legalMoves= attackedPieces;
+    }
 
 }

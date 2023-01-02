@@ -11,6 +11,7 @@ public class King extends Piece{
     public King(PieceColor pieceColor) {
         super( pieceColor);
     }
+    ArrayList<Position> kingPossibleMoves;
 
     public void isInCheck(){
     }
@@ -28,7 +29,13 @@ public class King extends Piece{
 
     @Override
     public boolean isBlocked(Position currentPosition, Position nextPosition, ChessBoard chessBoard) {
-        return !nextPosition.isEmpty() && nextPosition.getPiece().getPieceColor()==currentPosition.getPiece().pieceColor;
+        Position position = chessBoard.getPositionAt(nextPosition);
+        if(position!=null)
+        {
+            return !position.isEmpty() && position.getPiece().getPieceColor()==currentPosition.getPiece().pieceColor;
+
+        }
+        return false;
     }
 
     @Override
@@ -40,6 +47,22 @@ public class King extends Piece{
     public void updateAttackedPieces(Position currentPosition) {
 
     }
+
+    public ArrayList<Position> getKingPossibleMoves(Position currentPosition){
+        ArrayList<Position> positionsKingCanAttack = new ArrayList<Position>();
+        positionsKingCanAttack.add(new Position((char) (currentPosition.getFile()), (char) (currentPosition.getRank() + 1)));
+        positionsKingCanAttack.add(new Position((char) (currentPosition.getFile() ), (char) (currentPosition.getRank() - 1)));
+        positionsKingCanAttack.add(new Position((char) (currentPosition.getFile() + 1), (char) (currentPosition.getRank() )));
+        positionsKingCanAttack.add(new Position((char) (currentPosition.getFile() -1), (char) (currentPosition.getRank())));
+
+        positionsKingCanAttack.add(new Position((char) (currentPosition.getFile() + 1), (char) (currentPosition.getRank() +1)));
+        positionsKingCanAttack.add(new Position((char) (currentPosition.getFile() +1), (char) (currentPosition.getRank() - 1)));
+        positionsKingCanAttack.add(new Position((char) (currentPosition.getFile() -1), (char) (currentPosition.getRank() +1 )));
+        positionsKingCanAttack.add(new Position((char) (currentPosition.getFile() -1), (char) (currentPosition.getRank() -1 )));
+
+        return positionsKingCanAttack;
+    }
+
 
     @Override
     public void updateAttackedPieces(Position currentPosition, ChessBoard chessBoard) {
@@ -79,5 +102,10 @@ public class King extends Piece{
     @Override
     public String toString() {
         return "Ki";
+    }
+
+    @Override
+    public void updateLegalMoves(Position currentPosition ,ChessBoard chessBoard) {
+        legalMoves= attackedPieces;
     }
 }

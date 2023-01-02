@@ -87,4 +87,8 @@ public class Knight extends Piece {
     public String toString() {
         return "Kn";
     }
+    @Override
+    public void updateLegalMoves(Position currentPosition,ChessBoard chessBoard) {
+        legalMoves= attackedPieces;
+    }
 }
