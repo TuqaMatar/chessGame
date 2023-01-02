@@ -109,13 +109,19 @@ public class Pawn extends Piece {
         legalMoves.clear();
         switch(currentPosition.getPiece().getPieceColor()){
             case WHITE: {
-                legalMoves.add(new Position((char)(currentPosition.getFile()) , (char)(currentPosition.getRank()+1)));
+                Position position = chessBoard.getPositionAt((char)(currentPosition.getFile()) , (char)(currentPosition.getRank()+1));
+                if(position.isEmpty()){
+                    legalMoves.add(position);
+                }
             }
             break;
             case BlACK:
             {
-                legalMoves.add(new Position((char)(currentPosition.getFile()) , (char)(currentPosition.getRank()-1)));
-            }
+                Position position = chessBoard.getPositionAt((char)(currentPosition.getFile()) , (char)(currentPosition.getRank()-1));
+                if(position.isEmpty()){
+                    legalMoves.add(position);
+
+                }            }
             break;
         }
     }

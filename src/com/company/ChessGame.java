@@ -114,8 +114,15 @@ public class ChessGame {
     public boolean isCheckMate(Position currentKingPosition) {
         if (isKingChecked())
             if(kingHasNoLegalMoves(currentKingPosition))
+            {
+                System.out.println("King has no legal moves");
                 if(kingCannotBeBlocked(currentKingPosition))
+                {
                     return true;
+
+                }
+
+            }
 
         return false;
     }
@@ -234,8 +241,8 @@ public class ChessGame {
                             nextPosition.setPiece(movedPiece);
                             //movedPiece.updateAttackedPieces(nextPosition);
                             currentPosition.setPiece(null);
-                            chessBoard.updateAttackedPieces();
                             chessBoard.updatePiecesLegalMoves();
+                            chessBoard.updateAttackedPieces();
                             System.out.println("after updating legalMoves");
                             break;
                         }
@@ -252,7 +259,11 @@ public class ChessGame {
 
             isCheckingForCheckmate = true;
             if (isCheckMate(checkedPosition)) {
-                System.out.println("CHECKMATE");
+
+                System.out.println("CHECKMATE for : " + checkedPosition.getPiece().getPieceColor());
+                System.out.println("CHECKMATE for : " + checkedPosition.getPiece().getPieceColor());
+
+
                 break;
             }
             }
