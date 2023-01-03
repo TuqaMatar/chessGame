@@ -1,6 +1,7 @@
 package com.company;
 
 import com.company.Pieces.King;
+import com.company.Pieces.Pawn;
 import com.company.Pieces.Piece;
 import javafx.geometry.Pos;
 
@@ -214,10 +215,16 @@ public class ChessGame {
                                 break;
                             } else wrongMove = false;
 
+                            if(currentPosition.getPiece() instanceof Pawn )
+                            {
+                                if(((Pawn)currentPosition.getPiece()).isFirstTimeMoving())
+                                    ((Pawn)currentPosition.getPiece()).setFirstTimeMoving(false);
+                            }
                             Piece movedPiece = currentPosition.getPiece();
                             nextPosition.setPiece(movedPiece);
                             //movedPiece.updateAttackedPieces(nextPosition);
                             currentPosition.setPiece(null);
+
                             chessBoard.updatePiecesLegalMoves();
                             chessBoard.updateAttackedPieces();
                             System.out.println("after update pieces");

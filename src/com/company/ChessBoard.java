@@ -110,7 +110,6 @@ public class ChessBoard {
         {
             if(!positions.get(i).isEmpty()){
                 positions.get(i).getPiece().updateLegalMoves(positions.get(i) , this);
-
             }
         }
     }

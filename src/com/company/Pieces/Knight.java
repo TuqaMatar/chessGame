@@ -12,11 +12,6 @@ public class Knight extends Piece {
     }
 
     @Override
-    public boolean isMoveLegal(Position currentPosition, Position nextPosition) {
-        return legalMoves.contains(nextPosition);
-    }
-
-    @Override
     public String toString() {
         return "Kn";
     }

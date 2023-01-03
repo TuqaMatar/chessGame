@@ -12,11 +12,6 @@ public class Bishop extends Piece {
     }
 
     @Override
-    public boolean isMoveLegal(Position currentPosition, Position nextPosition) {
-        return legalMoves.contains(nextPosition);
-    }
-
-    @Override
     public void updateLegalMoves(Position currentPosition, ChessBoard chessBoard) {
         legalMoves.clear();
         //check all right diagonal forward

@@ -9,10 +9,6 @@ public class Castle extends Piece{
         super(pieceColor);
     }
 
-    @Override
-   public boolean isMoveLegal(Position currentPosition , Position nextPosition) {
-        return legalMoves.contains(nextPosition);
-    }
 
     @Override
     public void updateLegalMoves(Position currentPosition,ChessBoard chessBoard) {

@@ -35,7 +35,7 @@ public abstract class Piece {
         return true;
     }
     public boolean isMoveLegal(Position currentPosition , Position nextPosition) {
-        return false;
+        return legalMoves.contains(nextPosition); //should go to manager
     }
     public PieceColor getPieceColor() {
         return pieceColor;

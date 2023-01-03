@@ -3,85 +3,72 @@ package com.company.Pieces;
 import com.company.ChessBoard;
 import com.company.PieceColor;
 import com.company.Position;
+import javafx.geometry.Pos;
+
+import java.util.ArrayList;
 
 public class Pawn extends Piece {
+    public void setFirstTimeMoving(boolean firstTimeMoving) {
+        isFirstTimeMoving = firstTimeMoving;
+    }
+
     boolean isFirstTimeMoving;
 
-    public Pawn( PieceColor pieceColor) {
+    public boolean isFirstTimeMoving() {
+        return isFirstTimeMoving;
+    }
+
+    public Pawn(PieceColor pieceColor) {
         super(pieceColor);
         isFirstTimeMoving = true;
     }
 
-
-    @Override
-   public boolean isMoveLegal(Position currentPosition , Position nextPosition) {
-        switch(currentPosition.getPiece().getPieceColor()){
-            case WHITE:{
-                if(currentPosition.getFile() == nextPosition.getFile() && nextPosition.getRank()==currentPosition.getRank()+1)
-                    return true;
-            }
-
-                break;
-            case BlACK:
-                if(currentPosition.getFile() == nextPosition.getFile() && nextPosition.getRank()==currentPosition.getRank()-1)
-                    return true;
-                break;
-        }
-        return false;
-    }
-
     @Override
     public boolean isBlocked(Position currentPosition, Position nextPosition, ChessBoard chessBoard) {
-        return !nextPosition.isEmpty() && nextPosition.getPiece().getPieceColor()==currentPosition.getPiece().pieceColor;
+        return !nextPosition.isEmpty() && nextPosition.getPiece().getPieceColor() == currentPosition.getPiece().pieceColor;
     }
-
 
     @Override
     public void updateAttackedPieces(Position currentPosition, ChessBoard chessBoard) {
-        char rank ;
-        char file ;
+        char rank;
+        char file;
         attackedPieces.clear();
 
-        switch(currentPosition.getPiece().getPieceColor()){
+        switch (currentPosition.getPiece().getPieceColor()) {
             case WHITE: {
-                Position position = chessBoard.getPositionAt((char)(currentPosition.getFile()+1),(char)(currentPosition.getRank()+1));
-                if(position!=null)
-                {
-                    if(position.isEmpty())
-                    {attackedPieces.add(position);}
-                    else if(position.getPiece().getPieceColor() !=pieceColor)
+                Position position = chessBoard.getPositionAt((char) (currentPosition.getFile() + 1), (char) (currentPosition.getRank() + 1));
+                if (position != null) {
+                    if (position.isEmpty()) {
+                        attackedPieces.add(position);
+                    } else if (position.getPiece().getPieceColor() != pieceColor)
                         attackedPieces.add(position);
 
                 }
 
-                position=chessBoard.getPositionAt((char)(currentPosition.getFile()+1),(char)(currentPosition.getRank()+1));
-                if(position!=null)
-                {
-                    if(position.isEmpty())
-                    {attackedPieces.add(position);}
-                    else if(position.getPiece().getPieceColor() !=pieceColor)
+                position = chessBoard.getPositionAt((char) (currentPosition.getFile() + 1), (char) (currentPosition.getRank() + 1));
+                if (position != null) {
+                    if (position.isEmpty()) {
+                        attackedPieces.add(position);
+                    } else if (position.getPiece().getPieceColor() != pieceColor)
                         attackedPieces.add(position);
 
                 }
             }
             break;
-            case BlACK:
-            {
-                Position position = chessBoard.getPositionAt((char)(currentPosition.getFile()+1),(char)(currentPosition.getRank()-1));
-                if(position!=null)
-                {
-                    if(position.isEmpty())
-                    {attackedPieces.add(position);}
-                    else if(position.getPiece().getPieceColor() !=pieceColor)
+            case BlACK: {
+                Position position = chessBoard.getPositionAt((char) (currentPosition.getFile() + 1), (char) (currentPosition.getRank() - 1));
+                if (position != null) {
+                    if (position.isEmpty()) {
+                        attackedPieces.add(position);
+                    } else if (position.getPiece().getPieceColor() != pieceColor)
                         attackedPieces.add(position);
 
                 }
-                position=chessBoard.getPositionAt((char)(currentPosition.getFile()+-1),(char)(currentPosition.getRank()-1));
-                if(position!=null)
-                {
-                    if(position.isEmpty())
-                    {attackedPieces.add(position);}
-                    else if(position.getPiece().getPieceColor() !=pieceColor)
+                position = chessBoard.getPositionAt((char) (currentPosition.getFile() + -1), (char) (currentPosition.getRank() - 1));
+                if (position != null) {
+                    if (position.isEmpty()) {
+                        attackedPieces.add(position);
+                    } else if (position.getPiece().getPieceColor() != pieceColor)
                         attackedPieces.add(position);
 
                 }
@@ -93,23 +80,29 @@ public class Pawn extends Piece {
 
     @Override
     public void updateLegalMoves(Position currentPosition, ChessBoard chessBoard) {
+        ArrayList<Position> possiblePositions = new ArrayList<>();
         legalMoves.clear();
-        switch(currentPosition.getPiece().getPieceColor()){
-            case WHITE: {
-                Position position = chessBoard.getPositionAt((char)(currentPosition.getFile()) , (char)(currentPosition.getRank()+1));
-                if(position.isEmpty()){
+
+        if (isFirstTimeMoving) {
+            if (currentPosition.getPiece().getPieceColor() == PieceColor.WHITE)
+                possiblePositions.add(new Position((char) (currentPosition.getFile()), (char) (currentPosition.getRank() + 2)));
+            else
+                possiblePositions.add(new Position((char) (currentPosition.getFile()), (char) (currentPosition.getRank() - 2)));
+        }
+
+        if (currentPosition.getPiece().getPieceColor() == PieceColor.WHITE)
+            possiblePositions.add(new Position((char) (currentPosition.getFile()), (char) (currentPosition.getRank() + 1)));
+        else
+            possiblePositions.add(new Position((char) (currentPosition.getFile()), (char) (currentPosition.getRank() - 1)));
+
+
+        for (Position position : possiblePositions) {
+            if (chessBoard.getPositionAt(position) != null) {
+                if (position.isEmpty()) {
                     legalMoves.add(position);
                 }
             }
-            break;
-            case BlACK:
-            {
-                Position position = chessBoard.getPositionAt((char)(currentPosition.getFile()) , (char)(currentPosition.getRank()-1));
-                if(position.isEmpty()){
-                    legalMoves.add(position);
 
-                }            }
-            break;
         }
     }
 
