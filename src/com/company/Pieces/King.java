@@ -13,9 +13,6 @@ public class King extends Piece{
     }
     ArrayList<Position> kingPossibleMoves;
 
-    public void isInCheck(){
-    }
-
     @Override
    public boolean isMoveLegal(Position currentPosition , Position nextPosition ) {
         if(nextPosition.getRank() == currentPosition.getRank()+1
@@ -36,16 +33,6 @@ public class King extends Piece{
 
         }
         return false;
-    }
-
-    @Override
-    public void move(Position currentPosition, Position nextPosition) {
-
-    }
-
-    @Override
-    public void updateAttackedPieces(Position currentPosition) {
-
     }
 
     public ArrayList<Position> getKingPossibleMoves(Position currentPosition){

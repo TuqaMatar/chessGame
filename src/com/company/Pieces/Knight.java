@@ -32,24 +32,8 @@ public class Knight extends Piece {
         return !nextPosition.isEmpty() && nextPosition.getPiece().getPieceColor() == currentPosition.getPiece().pieceColor;
     }
 
-    @Override
-    public void move(Position currentPosition, Position nextPosition) {
-        // TODO document why this method is empty
-    }
 
-    @Override
-    public void updateAttackedPieces(Position currentPosition) {
-        attackedPieces.add(new Position((char) (currentPosition.getFile() + 1), (char) (currentPosition.getRank() + 2)));
-        attackedPieces.add(new Position((char) (currentPosition.getFile() + 1), (char) (currentPosition.getRank() + 2)));
-        attackedPieces.add(new Position((char) (currentPosition.getFile() + 1), (char) (currentPosition.getRank() - 2)));
-        attackedPieces.add(new Position((char) (currentPosition.getFile() - 1), (char) (currentPosition.getRank() - 2)));
 
-        attackedPieces.add(new Position((char) (currentPosition.getFile() + 2), (char) (currentPosition.getRank() + 1)));
-        attackedPieces.add(new Position((char) (currentPosition.getFile() + 2), (char) (currentPosition.getRank() - 1)));
-        attackedPieces.add(new Position((char) (currentPosition.getFile() - 2), (char) (currentPosition.getRank() + 1)));
-        attackedPieces.add(new Position((char) (currentPosition.getFile() - 2), (char) (currentPosition.getRank() - 1)));
-
-    }
 
     @Override
     public void updateAttackedPieces(Position currentPosition, ChessBoard chessBoard) {

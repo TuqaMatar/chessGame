@@ -62,15 +62,7 @@ public class Castle extends Piece{
         return false;
     }
 
-    @Override
-    public void move(Position currentPosition, Position nextPosition) {
-        // TODO document why this method is empty
-    }
 
-    @Override
-    public void updateAttackedPieces(Position currentPosition) {
-
-    }
 
     @Override
     public void updateAttackedPieces(Position currentPosition, ChessBoard chessBoard) {

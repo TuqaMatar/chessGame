@@ -32,13 +32,10 @@ public abstract class Piece {
         return false;
     }
 
-    public abstract void move(Position currentPosition , Position nextPosition );
-
     public PieceColor getPieceColor() {
         return pieceColor;
     }
 
-    public abstract void updateAttackedPieces (Position currentPosition);
     public abstract void updateAttackedPieces (Position currentPosition , ChessBoard chessBoard);
     public abstract void updateLegalMoves(Position currentPosition,ChessBoard chessBoard);
 

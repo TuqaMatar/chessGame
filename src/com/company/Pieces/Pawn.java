@@ -5,9 +5,13 @@ import com.company.PieceColor;
 import com.company.Position;
 
 public class Pawn extends Piece {
+    boolean isFirstTimeMoving;
+
     public Pawn( PieceColor pieceColor) {
         super(pieceColor);
+        isFirstTimeMoving = true;
     }
+
 
     @Override
    public boolean isMoveLegal(Position currentPosition , Position nextPosition) {
@@ -29,25 +33,6 @@ public class Pawn extends Piece {
         return !nextPosition.isEmpty() && nextPosition.getPiece().getPieceColor()==currentPosition.getPiece().pieceColor;
     }
 
-    @Override
-   public void move(Position currentPosition, Position nextPosition) {}
-
-    @Override
-    public void updateAttackedPieces(Position currentPosition) {
-        switch(currentPosition.getPiece().getPieceColor()){
-            case WHITE: {
-                attackedPieces.add(new Position((char)(currentPosition.getFile()+1) , (char)(currentPosition.getRank()+1)));
-                attackedPieces.add(new Position((char)(currentPosition.getFile()+-1) , (char)(currentPosition.getRank()+1)));
-            }
-                break;
-            case BlACK:
-            {
-                attackedPieces.add(new Position((char)(currentPosition.getFile()+1) , (char)(currentPosition.getRank()-1)));
-                attackedPieces.add(new Position((char)(currentPosition.getFile()+-1) , (char)(currentPosition.getRank()-1)));
-            }
-                break;
-        }
-    }
 
     @Override
     public void updateAttackedPieces(Position currentPosition, ChessBoard chessBoard) {

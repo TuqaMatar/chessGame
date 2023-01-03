@@ -11,17 +11,7 @@ import java.util.regex.*;
 public class ChessGame {
     Player currentPlayer;
     ChessBoard chessBoard;
-
-    public void setCheckedPosition(Position checkedPosition) {
-        this.checkedPosition = checkedPosition;
-    }
-
-    public Position getCheckedPosition() {
-        return checkedPosition;
-    }
-
     Position checkedPosition;
-
     boolean isCheckingForCheckmate;
 
     public void switchPlayer(Player currentPlayer) {
@@ -51,17 +41,20 @@ public class ChessGame {
     public boolean isLegalMove(Position currentPosition, Position nextPosition) {
         Piece chosenPiece = currentPosition.getPiece();
         if (chosenPiece == null) {
+            if(!isCheckingForCheckmate)
             System.out.println("no piece exists in " + currentPosition.getFile() + currentPosition.getRank() + ", try again");
             return false;
         }
         if (!chosenPiece.isMoveLegal(currentPosition, nextPosition)) {
-            System.out.println("Move is not legal for : " + chosenPiece);
+            if(!isCheckingForCheckmate)
+                System.out.println("Move is not legal for : " + chosenPiece);
             return false;
         }
         if (chosenPiece.isBlocked(currentPosition, nextPosition, chessBoard)) {
-            System.out.println("Move is not legal for : " + chosenPiece);
-            System.out.println("BLOCKED");
-
+            if(!isCheckingForCheckmate){
+                System.out.println("Move is not legal for : " + chosenPiece);
+                System.out.println("BLOCKED");
+            }
             return false;
         }
         if (chosenPiece.getPieceColor() == PieceColor.WHITE && currentPlayer == Player.BlACK && !isCheckingForCheckmate) {
@@ -94,21 +87,6 @@ public class ChessGame {
             }
         }
         return false;
-    }
-
-    public Position getKingPosition() {
-        Position kingPosition;
-        for (int i = 0; i < chessBoard.size(); i++) {
-            if (chessBoard.getPositions().get(i).getPiece() instanceof King) {
-                if(chessBoard.getPositions().get(i).getPiece().getPieceColor()==PieceColor.WHITE){
-                    kingPosition = chessBoard.getPositions().get(i);
-                    return kingPosition;
-                }
-
-            }
-
-        }
-        return null;
     }
 
     public boolean isCheckMate(Position currentKingPosition) {
@@ -243,7 +221,6 @@ public class ChessGame {
                             currentPosition.setPiece(null);
                             chessBoard.updatePiecesLegalMoves();
                             chessBoard.updateAttackedPieces();
-                            System.out.println("after updating legalMoves");
                             break;
                         }
                     }
@@ -261,8 +238,11 @@ public class ChessGame {
             if (isCheckMate(checkedPosition)) {
 
                 System.out.println("CHECKMATE for : " + checkedPosition.getPiece().getPieceColor());
-                System.out.println("CHECKMATE for : " + checkedPosition.getPiece().getPieceColor());
 
+                if(checkedPosition.getPiece().getPieceColor()==PieceColor.WHITE)
+                    System.out.println(Player.BlACK +"WINS !" );
+                else
+                    System.out.println(Player.WHITE +"WINS !" );
 
                 break;
             }

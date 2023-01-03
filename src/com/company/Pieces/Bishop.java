@@ -77,15 +77,6 @@ public class Bishop extends Piece{
         return true;
     }
 
-    @Override
-    public void move(Position currentPosition, Position nextPosition) {
-        // TODO document why this method is empty
-    }
-
-    @Override
-    public void updateAttackedPieces(Position currentPosition) {
-
-    }
 
 
     @Override
