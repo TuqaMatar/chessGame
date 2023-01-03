@@ -10,16 +10,6 @@ public class Queen extends Piece {
     }
 
     @Override
-    public boolean isBlocked(Position currentPosition, Position nextPosition, ChessBoard board) {
-        for(Position position :attackedPieces )
-        {
-            if(position.equals(nextPosition))
-                return false;
-        }
-        return true;
-    }
-
-    @Override
     public boolean isMoveLegal(Position currentPosition , Position nextPosition) {
         int distanceBetweenFiles = Math.abs(nextPosition.getFile() - currentPosition.getFile());
         int distanceBetweenRanks = Math.abs(nextPosition.getRank() -currentPosition.getRank());
@@ -31,16 +21,15 @@ public class Queen extends Piece {
         return false;
     }
 
-
-
     @Override
     public void updateAttackedPieces(Position currentPosition, ChessBoard chessBoard) {
         attackedPieces.clear();
-        updateDiagonalAttackedPieces( currentPosition,  chessBoard);
-        updateCastleLikeAttackedPieces( currentPosition,  chessBoard);
+        updateDiagonalLegalPositions( currentPosition,  chessBoard);
+        updateCastleLikeLegalPositions( currentPosition,  chessBoard);
     }
 
-    public void updateDiagonalAttackedPieces(Position currentPosition, ChessBoard chessBoard){
+    public void updateDiagonalLegalPositions(Position currentPosition, ChessBoard chessBoard){
+        legalMoves.clear();
         //check all right diagonal forward
         Position testPosition = chessBoard.getPositionAt((char)(currentPosition.getFile()+1) ,currentPosition.getRank()+1);
         if(testPosition!=null){
@@ -52,10 +41,10 @@ public class Queen extends Piece {
                 if(positionToCheck !=null)
                 {
                     if (positionToCheck.isEmpty())
-                        attackedPieces.add(positionToCheck);
+                        legalMoves.add(positionToCheck);
                     else {
                         if (positionToCheck.getPiece().pieceColor != pieceColor) {
-                            attackedPieces.add(positionToCheck);
+                            legalMoves.add(positionToCheck);
                         }
                         break;
                     }
@@ -77,10 +66,10 @@ public class Queen extends Piece {
                 if(positionToCheck !=null)
                 {
                     if (positionToCheck.isEmpty())
-                        attackedPieces.add(positionToCheck);
+                        legalMoves.add(positionToCheck);
                     else {
                         if (positionToCheck.getPiece().pieceColor != pieceColor) {
-                            attackedPieces.add(positionToCheck);
+                            legalMoves.add(positionToCheck);
                         }
                         break;
 
@@ -101,10 +90,10 @@ public class Queen extends Piece {
                 if(positionToCheck !=null)
                 {
                     if (positionToCheck.isEmpty())
-                        attackedPieces.add(positionToCheck);
+                        legalMoves.add(positionToCheck);
                     else {
                         if (positionToCheck.getPiece().pieceColor != pieceColor) {
-                            attackedPieces.add(positionToCheck);
+                            legalMoves.add(positionToCheck);
                         }
                         break;
 
@@ -112,7 +101,6 @@ public class Queen extends Piece {
 
                 }
                 testPosition = chessBoard.getPositionAt((char)(testPosition.getFile()-1) ,testPosition.getRank()+1);
-
             }
         }
 
@@ -127,10 +115,10 @@ public class Queen extends Piece {
                 if(positionToCheck !=null)
                 {
                     if (positionToCheck.isEmpty())
-                        attackedPieces.add(positionToCheck);
+                        legalMoves.add(positionToCheck);
                     else {
                         if (positionToCheck.getPiece().pieceColor != pieceColor) {
-                            attackedPieces.add(positionToCheck);
+                            legalMoves.add(positionToCheck);
                         }
                         break;
 
@@ -140,10 +128,12 @@ public class Queen extends Piece {
                 testPosition = chessBoard.getPositionAt((char)(testPosition.getFile()-1) ,testPosition.getRank()-1);
             }
         }
-
     }
 
-    public void updateCastleLikeAttackedPieces(Position currentPosition, ChessBoard chessBoard){
+    public void updateCastleLikeLegalPositions(Position currentPosition, ChessBoard chessBoard){
+        legalMoves.clear();
+        //add pieces that are attacked vertically
+        //TODO change 8 to chess board dimension because that could change in the future if chess was expanded to another game ?
         char file = currentPosition.getFile();
         char rank = currentPosition.getRank();
 
@@ -151,10 +141,10 @@ public class Queen extends Piece {
             if (chessBoard.getPositionAt(file, (char)(i+'0')) != null) {
 
                 if (chessBoard.getPositionAt(file, (char)(i+'0')).isEmpty())
-                    attackedPieces.add(chessBoard.getPositionAt(file, (char)(i+'0')));
+                    legalMoves.add(chessBoard.getPositionAt(file, (char)(i+'0')));
                 else {
                     if (chessBoard.getPositionAt(file, (char)(i+'0')).getPiece().pieceColor != pieceColor) {
-                        attackedPieces.add(chessBoard.getPositionAt(file, (char) (i)));
+                        legalMoves.add(chessBoard.getPositionAt(file, (char) (i)));
                     }
                     break;
                 }
@@ -165,10 +155,10 @@ public class Queen extends Piece {
         for ( int i = Character.getNumericValue(currentPosition.getRank()+1); i <= 8; i++) {
             if (chessBoard.getPositionAt(file, (char)(i+'0')) != null) {
                 if (chessBoard.getPositionAt(file, (char)(i+'0')).isEmpty())
-                    attackedPieces.add(chessBoard.getPositionAt(file, (char)(i+'0')));
+                    legalMoves.add(chessBoard.getPositionAt(file, (char)(i+'0')));
                 else {
                     if (chessBoard.getPositionAt(file, (char)(i+'0')).getPiece().pieceColor != pieceColor) {
-                        attackedPieces.add(chessBoard.getPositionAt(file, (char)(i+'0')));
+                        legalMoves.add(chessBoard.getPositionAt(file, (char)(i+'0')));
                     }
                     break;
                 }
@@ -182,10 +172,10 @@ public class Queen extends Piece {
             if (chessBoard.getPositionAt(i, rank) != null) {
 
                 if (chessBoard.getPositionAt(i, rank).isEmpty())
-                    attackedPieces.add(chessBoard.getPositionAt(i, rank));
+                    legalMoves.add(chessBoard.getPositionAt(i, rank));
                 else {
                     if (chessBoard.getPositionAt(i, rank).getPiece().pieceColor != pieceColor) {
-                        attackedPieces.add(chessBoard.getPositionAt(i, rank));
+                        legalMoves.add(chessBoard.getPositionAt(i, rank));
                     }
                     break;
                 }
@@ -198,10 +188,10 @@ public class Queen extends Piece {
             if (chessBoard.getPositionAt(i, rank) != null) {
 
                 if (chessBoard.getPositionAt(i, rank).isEmpty())
-                    attackedPieces.add(chessBoard.getPositionAt(i, rank));
+                    legalMoves.add(chessBoard.getPositionAt(i, rank));
                 else {
                     if (chessBoard.getPositionAt(i, rank).getPiece().pieceColor != pieceColor) {
-                        attackedPieces.add(chessBoard.getPositionAt(i, rank));
+                        legalMoves.add(chessBoard.getPositionAt(i, rank));
                     }
                     break;
                 }
@@ -211,12 +201,14 @@ public class Queen extends Piece {
 
         }
     }
-    @Override
-    public String toString() {
-        return "Qu";
-    }
+
     @Override
     public void updateLegalMoves(Position currentPosition, ChessBoard chessBoard) {
         legalMoves= attackedPieces;
+    }
+
+    @Override
+    public String toString() {
+        return "Queen";
     }
 }

@@ -11,62 +11,12 @@ public class Castle extends Piece{
 
     @Override
    public boolean isMoveLegal(Position currentPosition , Position nextPosition) {
-        return (currentPosition.getFile() == nextPosition.getFile()
-                || currentPosition.getRank() == nextPosition.getRank())
-                && !currentPosition.equals(nextPosition);
+        return legalMoves.contains(nextPosition);
     }
 
     @Override
-    public boolean isBlocked(Position currentPosition, Position nextPosition , ChessBoard board) {
-        boolean isMovingRanks = currentPosition.getRank()> nextPosition.getRank() || currentPosition.getRank()<nextPosition.getRank();
-        boolean isMovingForward = currentPosition.getRank() < nextPosition.getRank();
-        int pathLength = isMovingRanks? Math.abs(currentPosition.getRank() - nextPosition.getRank()) : Math.abs(currentPosition.getFile()-nextPosition.getFile());
-
-        boolean isMovingRight = currentPosition.getFile()< nextPosition.getFile();
-        boolean isMovingVertically = currentPosition.getRank()> nextPosition.getRank() || currentPosition.getRank()<nextPosition.getRank();
-
-         for(int i=1 ; i<=pathLength ; i++)
-            {
-
-                char file = 0 , rank =0 ;
-                if(isMovingVertically)
-                {
-                    if(isMovingForward)
-                    {
-                        file = (char)currentPosition.getFile();
-                        rank = (char)(currentPosition.getRank()+i);
-                    }
-                    else {
-                        file = (char)currentPosition.getFile();
-                        rank = (char)(currentPosition.getRank()-i);
-                    }
-                }
-                else
-                {
-                    if(isMovingRight)
-                    {
-                        file = (char)(currentPosition.getFile()+i);
-                        rank = (char)currentPosition.getRank();
-                    }
-                    else {
-                        file = (char)(currentPosition.getFile()-i);
-                        rank = (char)(currentPosition.getRank());
-                    }
-                }
-
-                if(!board.getPositionAt(file,rank).isEmpty())
-                    if(board.getPositionAt(file,rank).getPiece().getPieceColor()== currentPosition.getPiece().pieceColor)
-                        return true;
-            }
-
-        return false;
-    }
-
-
-
-    @Override
-    public void updateAttackedPieces(Position currentPosition, ChessBoard chessBoard) {
-        attackedPieces.clear();
+    public void updateLegalMoves(Position currentPosition,ChessBoard chessBoard) {
+        legalMoves.clear();
         //add pieces that are attacked vertically
         //TODO change 8 to chess board dimension because that could change in the future if chess was expanded to another game ?
         char file = currentPosition.getFile();
@@ -76,10 +26,10 @@ public class Castle extends Piece{
             if (chessBoard.getPositionAt(file, (char)(i+'0')) != null) {
 
                 if (chessBoard.getPositionAt(file, (char)(i+'0')).isEmpty())
-                    attackedPieces.add(chessBoard.getPositionAt(file, (char)(i+'0')));
+                    legalMoves.add(chessBoard.getPositionAt(file, (char)(i+'0')));
                 else {
                     if (chessBoard.getPositionAt(file, (char)(i+'0')).getPiece().pieceColor != pieceColor) {
-                        attackedPieces.add(chessBoard.getPositionAt(file, (char) (i)));
+                        legalMoves.add(chessBoard.getPositionAt(file, (char) (i)));
                     }
                     break;
                 }
@@ -90,10 +40,10 @@ public class Castle extends Piece{
         for ( int i = Character.getNumericValue(currentPosition.getRank()+1); i <= 8; i++) {
             if (chessBoard.getPositionAt(file, (char)(i+'0')) != null) {
                 if (chessBoard.getPositionAt(file, (char)(i+'0')).isEmpty())
-                    attackedPieces.add(chessBoard.getPositionAt(file, (char)(i+'0')));
+                    legalMoves.add(chessBoard.getPositionAt(file, (char)(i+'0')));
                 else {
                     if (chessBoard.getPositionAt(file, (char)(i+'0')).getPiece().pieceColor != pieceColor) {
-                        attackedPieces.add(chessBoard.getPositionAt(file, (char)(i+'0')));
+                        legalMoves.add(chessBoard.getPositionAt(file, (char)(i+'0')));
                     }
                     break;
                 }
@@ -107,10 +57,10 @@ public class Castle extends Piece{
             if (chessBoard.getPositionAt(i, rank) != null) {
 
                 if (chessBoard.getPositionAt(i, rank).isEmpty())
-                    attackedPieces.add(chessBoard.getPositionAt(i, rank));
+                    legalMoves.add(chessBoard.getPositionAt(i, rank));
                 else {
                     if (chessBoard.getPositionAt(i, rank).getPiece().pieceColor != pieceColor) {
-                        attackedPieces.add(chessBoard.getPositionAt(i, rank));
+                        legalMoves.add(chessBoard.getPositionAt(i, rank));
                     }
                     break;
                 }
@@ -123,10 +73,10 @@ public class Castle extends Piece{
             if (chessBoard.getPositionAt(i, rank) != null) {
 
                 if (chessBoard.getPositionAt(i, rank).isEmpty())
-                    attackedPieces.add(chessBoard.getPositionAt(i, rank));
+                    legalMoves.add(chessBoard.getPositionAt(i, rank));
                 else {
                     if (chessBoard.getPositionAt(i, rank).getPiece().pieceColor != pieceColor) {
-                        attackedPieces.add(chessBoard.getPositionAt(i, rank));
+                        legalMoves.add(chessBoard.getPositionAt(i, rank));
                     }
                     break;
                 }
@@ -134,17 +84,11 @@ public class Castle extends Piece{
 
             }
 
-        }
-    }
+        }    }
 
     @Override
     public String toString() {
-        return "Ca";
-    }
-
-    @Override
-    public void updateLegalMoves(Position currentPosition,ChessBoard chessBoard) {
-        legalMoves= attackedPieces;
+        return "Castle";
     }
 
 }

@@ -24,17 +24,6 @@ public class King extends Piece{
         return false;
     }
 
-    @Override
-    public boolean isBlocked(Position currentPosition, Position nextPosition, ChessBoard chessBoard) {
-        Position position = chessBoard.getPositionAt(nextPosition);
-        if(position!=null)
-        {
-            return !position.isEmpty() && position.getPiece().getPieceColor()==currentPosition.getPiece().pieceColor;
-
-        }
-        return false;
-    }
-
     public ArrayList<Position> getKingPossibleMoves(Position currentPosition){
         ArrayList<Position> positionsKingCanAttack = new ArrayList<Position>();
         positionsKingCanAttack.add(new Position((char) (currentPosition.getFile()), (char) (currentPosition.getRank() + 1)));
@@ -85,14 +74,13 @@ public class King extends Piece{
 
     }
 
-
-    @Override
-    public String toString() {
-        return "Ki";
-    }
-
     @Override
     public void updateLegalMoves(Position currentPosition ,ChessBoard chessBoard) {
         legalMoves= attackedPieces;
+    }
+
+    @Override
+    public String toString() {
+        return "King";
     }
 }

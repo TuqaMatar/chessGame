@@ -8,35 +8,41 @@ import java.util.ArrayList;
 
 public abstract class Piece {
     PieceColor pieceColor;
-
-    public ArrayList<Position> getAttackedPieces() {
-        return attackedPieces;
-    }
-
     ArrayList<Position> attackedPieces;
-
-    public ArrayList<Position> getLegalMoves() {
-        return legalMoves;
-    }
-
-    ArrayList<Position> legalMoves;
 
     public Piece(PieceColor pieceColor){
         this.pieceColor = pieceColor;
         attackedPieces = new ArrayList<>();
         legalMoves = new ArrayList<>();
     }
-    public abstract boolean isBlocked(Position currentPosition , Position nextPosition , ChessBoard board);
 
+    public ArrayList<Position> getLegalMoves() {
+        return legalMoves;
+    }
+    public ArrayList<Position> getAttackedPieces() {
+        return attackedPieces;
+    }
+
+    ArrayList<Position> legalMoves;
+
+    public  boolean isBlocked(Position currentPosition , Position nextPosition , ChessBoard board)
+    {
+        for(Position position :attackedPieces )
+        {
+            if(position.equals(nextPosition))
+                return false;
+        }
+        return true;
+    }
     public boolean isMoveLegal(Position currentPosition , Position nextPosition) {
         return false;
     }
-
     public PieceColor getPieceColor() {
         return pieceColor;
     }
-
-    public abstract void updateAttackedPieces (Position currentPosition , ChessBoard chessBoard);
+    public void updateAttackedPieces(Position currentPosition, ChessBoard chessBoard) {
+        attackedPieces = legalMoves;
+    }
     public abstract void updateLegalMoves(Position currentPosition,ChessBoard chessBoard);
 
 }

@@ -52,8 +52,7 @@ public class ChessGame {
         }
         if (chosenPiece.isBlocked(currentPosition, nextPosition, chessBoard)) {
             if(!isCheckingForCheckmate){
-                System.out.println("Move is not legal for : " + chosenPiece);
-                System.out.println("BLOCKED");
+                System.out.println("cannot move  : " + chosenPiece + " because its BLOCKED");
             }
             return false;
         }
@@ -66,7 +65,6 @@ public class ChessGame {
         }
         return true;
     }
-
 
     public boolean isKingChecked() {
         Position kingPosition;
@@ -184,6 +182,7 @@ public class ChessGame {
         String move;
         Position currentPosition;
         Position nextPosition;
+        chessBoard.updatePiecesLegalMoves();
         chessBoard.updateAttackedPieces();
 
         while (moves < 50) {
@@ -221,6 +220,7 @@ public class ChessGame {
                             currentPosition.setPiece(null);
                             chessBoard.updatePiecesLegalMoves();
                             chessBoard.updateAttackedPieces();
+                            System.out.println("after update pieces");
                             break;
                         }
                     }

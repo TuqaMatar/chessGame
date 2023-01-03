@@ -13,35 +13,22 @@ public class Knight extends Piece {
 
     @Override
     public boolean isMoveLegal(Position currentPosition, Position nextPosition) {
-        //knight has 8 possible movements i will check all of them
-        if (nextPosition.getRank() == currentPosition.getRank() + 2 && nextPosition.getFile() == currentPosition.getFile() + 1
-                || nextPosition.getRank() == currentPosition.getRank() + 2 && nextPosition.getFile() == currentPosition.getFile() - 1
-                || nextPosition.getRank() == currentPosition.getRank() - 2 && nextPosition.getFile() == currentPosition.getFile() + 1
-                || nextPosition.getRank() == currentPosition.getRank() - 2 && nextPosition.getFile() == currentPosition.getFile() - 1
-
-                || nextPosition.getRank() == currentPosition.getRank() + 1 && nextPosition.getFile() == currentPosition.getFile() + 2
-                || nextPosition.getRank() == currentPosition.getRank() - 1 && nextPosition.getFile() == currentPosition.getFile() + 2
-                || nextPosition.getRank() == currentPosition.getRank() + 1 && nextPosition.getFile() == currentPosition.getFile() - 2
-                || nextPosition.getRank() == currentPosition.getRank() - 1 && nextPosition.getFile() == currentPosition.getFile() - 2)
-            return true;
-        return false;
+        return legalMoves.contains(nextPosition);
     }
 
     @Override
-    public boolean isBlocked(Position currentPosition, Position nextPosition, ChessBoard chessBoard) {
-        return !nextPosition.isEmpty() && nextPosition.getPiece().getPieceColor() == currentPosition.getPiece().pieceColor;
+    public String toString() {
+        return "Kn";
     }
 
-
-
-
     @Override
-    public void updateAttackedPieces(Position currentPosition, ChessBoard chessBoard) {
-        attackedPieces.clear();
+    public void updateLegalMoves(Position currentPosition,ChessBoard chessBoard) {
+        legalMoves.clear();
         ArrayList<Position> positionsKnightCanAttack = new ArrayList<Position>();
         positionsKnightCanAttack.add(new Position((char) (currentPosition.getFile() + 1), (char) (currentPosition.getRank() + 2)));
         positionsKnightCanAttack.add(new Position((char) (currentPosition.getFile() + 1), (char) (currentPosition.getRank() - 2)));
         positionsKnightCanAttack.add(new Position((char) (currentPosition.getFile() - 1), (char) (currentPosition.getRank() - 2)));
+        positionsKnightCanAttack.add(new Position((char) (currentPosition.getFile() - 1), (char) (currentPosition.getRank() + 2)));
 
         positionsKnightCanAttack.add(new Position((char) (currentPosition.getFile() + 2), (char) (currentPosition.getRank() + 1)));
         positionsKnightCanAttack.add(new Position((char) (currentPosition.getFile() + 2), (char) (currentPosition.getRank() - 1)));
@@ -55,24 +42,14 @@ public class Knight extends Piece {
             {
                 if(!position.isEmpty()) {
                     if(position.getPiece().getPieceColor()!=pieceColor)
-                        attackedPieces.add(position);
+                        legalMoves.add(position);
                 }
                 else {
-                    attackedPieces.add(position);
+                    legalMoves.add(position);
                 }
 
             }
 
         }
-    }
-
-
-    @Override
-    public String toString() {
-        return "Kn";
-    }
-    @Override
-    public void updateLegalMoves(Position currentPosition,ChessBoard chessBoard) {
-        legalMoves= attackedPieces;
     }
 }
