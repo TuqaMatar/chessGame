@@ -24,15 +24,13 @@ public class ChessBoard {
         return null;
     }
     public Position getPositionAt(Position position) {
-
-        for (int i = 0; i < positions.size(); i++) {
-            if (positions.get(i).file == position.getFile() && positions.get(i).rank == position.getRank()) {
-                return positions.get(i);
+        for (Position value : positions) {
+            if (value.file == position.getFile() && value.rank == position.getRank()) {
+                return value;
             }
         }
         return null;
     }
-
 
     ArrayList<Position> initializeBoard() {
         positions = new ArrayList<>();

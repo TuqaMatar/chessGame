@@ -9,15 +9,7 @@ public class Queen extends Piece {
         super(pieceColor);
     }
 
-    @Override
-    public void updateAttackedPieces(Position currentPosition, ChessBoard chessBoard) {
-        attackedPieces.clear();
-        updateDiagonalLegalPositions( currentPosition,  chessBoard);
-        updateCastleLikeLegalPositions( currentPosition,  chessBoard);
-    }
-
     public void updateDiagonalLegalPositions(Position currentPosition, ChessBoard chessBoard){
-        legalMoves.clear();
         //check all right diagonal forward
         Position testPosition = chessBoard.getPositionAt((char)(currentPosition.getFile()+1) ,currentPosition.getRank()+1);
         if(testPosition!=null){
@@ -119,7 +111,6 @@ public class Queen extends Piece {
     }
 
     public void updateCastleLikeLegalPositions(Position currentPosition, ChessBoard chessBoard){
-        legalMoves.clear();
         //add pieces that are attacked vertically
         //TODO change 8 to chess board dimension because that could change in the future if chess was expanded to another game ?
         char file = currentPosition.getFile();
@@ -192,7 +183,10 @@ public class Queen extends Piece {
 
     @Override
     public void updateLegalMoves(Position currentPosition, ChessBoard chessBoard) {
-        legalMoves= attackedPieces;
+        legalMoves.clear();
+
+        updateDiagonalLegalPositions( currentPosition,  chessBoard);
+        updateCastleLikeLegalPositions( currentPosition,  chessBoard);
     }
 
     @Override

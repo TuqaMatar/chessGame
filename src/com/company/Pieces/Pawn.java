@@ -1,10 +1,7 @@
 package com.company.Pieces;
-
 import com.company.ChessBoard;
 import com.company.PieceColor;
 import com.company.Position;
-import javafx.geometry.Pos;
-
 import java.util.ArrayList;
 
 public class Pawn extends Piece {
@@ -98,7 +95,7 @@ public class Pawn extends Piece {
 
         for (Position position : possiblePositions) {
             if (chessBoard.getPositionAt(position) != null) {
-                if (position.isEmpty()) {
+                if (chessBoard.getPositionAt(position).isEmpty()) {
                     legalMoves.add(position);
                 }
             }
