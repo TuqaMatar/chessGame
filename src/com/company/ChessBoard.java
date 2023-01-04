@@ -1,24 +1,30 @@
 package com.company;
-
 import com.company.Pieces.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class ChessBoard {
     final int CHESS_BOARD_SIZE = 64;
     ArrayList<Position> positions;
-
     public ChessBoard() {
         positions = initializeBoard();
     }
-
     public Position getPositionAt(char file, int rank) {
+        //binary search to lower complexity
+        Position searchedPosition = new Position(file, (char) rank);
+        int start = 0;
+        int end = positions.size() - 1;
 
-        for (int i = 0; i < positions.size(); i++) {
-            if (positions.get(i).file == file && positions.get(i).rank == rank) {
-                return positions.get(i);
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+            if (searchedPosition.equals(positions.get(mid))) {
+                // Element is found
+                return positions.get(mid);
+            } else if (searchedPosition.getRank() < positions.get(mid).getRank() || (searchedPosition.getFile() != positions.get(mid).getFile() &&
+                    searchedPosition.getFile() > positions.get(mid).getFile())) {
+                start = mid + 1;
+            } else {
+                end = mid - 1;
             }
         }
         return null;
@@ -34,7 +40,6 @@ public class ChessBoard {
 
     ArrayList<Position> initializeBoard() {
         positions = new ArrayList<>();
-
         //initializing black pieces on board
         positions.add(new Position("a8", new Castle(PieceColor.BlACK), true));
         positions.add(new Position("b8", new Knight(PieceColor.BlACK), true));
@@ -73,7 +78,6 @@ public class ChessBoard {
     }
 
     public void printBoard() {
-
         for (int i = 0; i < positions.size(); i++) {
             if (i % 8 == 0) {
                 System.out.println();
@@ -81,7 +85,14 @@ public class ChessBoard {
             System.out.print(positions.get(i).piece + " ");
         }
         System.out.println();
+    }
 
+    public void printPositions() {
+        for (Position position : positions) {
+            System.out.print(position.getFile() + " " + position.getRank());
+            System.out.println();
+
+        }
     }
 
     public ArrayList<Position> getPositions() {
@@ -92,22 +103,19 @@ public class ChessBoard {
         return CHESS_BOARD_SIZE;
     }
 
-    public void updateAttackedPieces ()
-    {
-        for(int i = 0; i<positions.size(); i++)
-        {
-            if(!positions.get(i).isEmpty()){
-                positions.get(i).getPiece().updateAttackedPieces(positions.get(i) , this);
+    public void updateAttackedPieces() {
+        for (int i = 0; i < positions.size(); i++) {
+            if (!positions.get(i).isEmpty()) {
+                positions.get(i).getPiece().updateAttackedPieces(positions.get(i), this);
 
             }
         }
     }
 
     public void updatePiecesLegalMoves() {
-        for(int i = 0; i<positions.size(); i++)
-        {
-            if(!positions.get(i).isEmpty()){
-                positions.get(i).getPiece().updateLegalMoves(positions.get(i) , this);
+        for (int i = 0; i < positions.size(); i++) {
+            if (!positions.get(i).isEmpty()) {
+                positions.get(i).getPiece().updateLegalMoves(positions.get(i), this);
             }
         }
     }

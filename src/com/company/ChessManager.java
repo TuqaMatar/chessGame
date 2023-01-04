@@ -86,15 +86,15 @@ public class ChessManager {
                 if(position.getPiece().getPieceColor() == currentPosition.getPiece().getPieceColor())
                 {
                     Piece piece = position.getPiece();
-                    ArrayList<Position> legalMoves = piece.getLegalMoves();
+                    ArrayList<Position> legalPositions = piece.getLegalMoves();
 
                     // simulate a legal move
-                    for(Position legalMove : legalMoves)
+                    for(Position legalPosition: legalPositions)
                     {
-                        if(isLegalMove(currentPlayer,position,legalMove))
+                        if(isLegalMove(currentPlayer,position,legalPosition))
                         {
                             //simulate that move
-                            chessBoard.getPositionAt(legalMove).setPiece(piece);
+                            chessBoard.getPositionAt(legalPosition).setPiece(piece);
                             chessBoard.getPositionAt(position).setPiece(null);
 
                             //if it is not in check then return false;
@@ -106,7 +106,7 @@ public class ChessManager {
                             {
                                 // reverse move
                                 chessBoard.getPositionAt(position).setPiece(piece);
-                                chessBoard.getPositionAt(legalMove).setPiece(null);
+                                chessBoard.getPositionAt(legalPosition).setPiece(null);
                             }
 
 

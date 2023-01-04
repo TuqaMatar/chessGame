@@ -5,14 +5,13 @@ import com.company.Position;
 import java.util.ArrayList;
 
 public class Pawn extends Piece {
-    public void setFirstTimeMoving(boolean firstTimeMoving) {
-        isFirstTimeMoving = firstTimeMoving;
-    }
-
     boolean isFirstTimeMoving;
 
     public boolean isFirstTimeMoving() {
         return isFirstTimeMoving;
+    }
+    public void setFirstTimeMoving(boolean firstTimeMoving) {
+        isFirstTimeMoving = firstTimeMoving;
     }
 
     public Pawn(PieceColor pieceColor) {
@@ -24,6 +23,7 @@ public class Pawn extends Piece {
     public boolean isBlocked(Position currentPosition, Position nextPosition, ChessBoard chessBoard) {
         return !nextPosition.isEmpty() && nextPosition.getPiece().getPieceColor() == currentPosition.getPiece().pieceColor;
     }
+
 
     @Override
     public void updateAttackedPieces(Position currentPosition, ChessBoard chessBoard) {
@@ -39,7 +39,6 @@ public class Pawn extends Piece {
                         attackedPieces.add(position);
                     } else if (position.getPiece().getPieceColor() != pieceColor)
                         attackedPieces.add(position);
-
                 }
 
                 position = chessBoard.getPositionAt((char) (currentPosition.getFile() + 1), (char) (currentPosition.getRank() + 1));
@@ -101,6 +100,16 @@ public class Pawn extends Piece {
             }
 
         }
+
+        for(Position position : attackedPieces)
+        {
+            if(chessBoard.getPositionAt(position)!=null)
+            {
+                if(!chessBoard.getPositionAt(position).isEmpty()&& chessBoard.getPositionAt(position).getPiece().getPieceColor()!=pieceColor)
+                    legalMoves.add(position);
+            }
+        }
+
     }
 
     public String toString() {

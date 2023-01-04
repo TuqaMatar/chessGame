@@ -14,7 +14,6 @@ public class Castle extends Piece{
     public void updateLegalMoves(Position currentPosition,ChessBoard chessBoard) {
         legalMoves.clear();
         //add pieces that are attacked vertically
-        //TODO change 8 to chess board dimension because that could change in the future if chess was expanded to another game ?
         char file = currentPosition.getFile();
         char rank = currentPosition.getRank();
 
