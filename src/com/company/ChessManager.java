@@ -15,26 +15,15 @@ public class ChessManager {
     public ChessBoard getChessBoard() {
         return chessBoard;
     }
-
-    public void setChessBoard(ChessBoard chessBoard) {
-        this.chessBoard = chessBoard;
-    }
-
+    
     public Position getCheckedPosition() {
         return checkedPosition;
-    }
-
-    public void setCheckedPosition(Position checkedPosition) {
-        this.checkedPosition = checkedPosition;
     }
 
     Position checkedPosition;
 
     public ChessManager(ChessBoard chessBoard){
         this.chessBoard = chessBoard;
-    }
-    public boolean isCheckingForCheckmate() {
-        return isCheckingForCheckmate;
     }
 
     public void setCheckingForCheckmate(boolean checkingForCheckmate) {
@@ -93,9 +82,11 @@ public class ChessManager {
                     {
                         if(isLegalMove(currentPlayer,position,legalPosition))
                         {
+//                            Position LegalPosition = chessBoard.getPositionAt(legalPosition);
+                            Position initialPosition = chessBoard.getPositionAt(position);
                             //simulate that move
-                            chessBoard.getPositionAt(legalPosition).setPiece(piece);
-                            chessBoard.getPositionAt(position).setPiece(null);
+                            legalPosition.setPiece(piece);
+                            initialPosition.setPiece(null);
 
                             //if it is not in check then return false;
                             if(!isKingChecked())
@@ -105,8 +96,8 @@ public class ChessManager {
                             else
                             {
                                 // reverse move
-                                chessBoard.getPositionAt(position).setPiece(piece);
-                                chessBoard.getPositionAt(legalPosition).setPiece(null);
+                                initialPosition.setPiece(piece);
+                                legalPosition.setPiece(null);
                             }
 
 
