@@ -5,6 +5,8 @@ import com.company.PieceColor;
 import com.company.Position;
 
 import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Bishop extends Piece {
     public Bishop(PieceColor pieceColor) {
@@ -14,94 +16,34 @@ public class Bishop extends Piece {
     @Override
     public void updateLegalMoves(Position currentPosition, ChessBoard chessBoard) {
         legalMoves.clear();
-        //check all right diagonal forward
-        Position testPosition = chessBoard.getPositionAt((char) (currentPosition.getFile() + 1), currentPosition.getRank() + 1);
-        if (testPosition != null) {
+        ArrayList<Position> startingPositions = new ArrayList<>();
+        int[][] offsets = {{+1, +1}, {+1, -1}, {-1, +1}, {-1, -1}};
 
-            while (testPosition != null) {
+        startingPositions.add(chessBoard.getPositionAt((char) (currentPosition.getFile() + 1), currentPosition.getRank() + 1)); // right diagonal forward
+        startingPositions.add(chessBoard.getPositionAt((char) (currentPosition.getFile() + 1), currentPosition.getRank() - 1)); //right diagonal backward
+        startingPositions.add(chessBoard.getPositionAt((char) (currentPosition.getFile() - 1), currentPosition.getRank() + 1)); //left diagonal forward
+        startingPositions.add(chessBoard.getPositionAt((char) (currentPosition.getFile() - 1), currentPosition.getRank() - 1));//left diagonal backward
 
-                Position positionToCheck = chessBoard.getPositionAt((chessBoard.getPositionAt(testPosition.getFile(), testPosition.getRank())));
-                if (positionToCheck != null) {
-                    if (positionToCheck.isEmpty())
-                        legalMoves.add(positionToCheck);
-                    else {
-                        if (positionToCheck.getPiece().pieceColor != pieceColor) {
+        for (int i = 0; i < startingPositions.size(); i++) {
+            Position testPosition = startingPositions.get(i);
+            if (testPosition != null) {
+                while (testPosition != null) {
+                    Position positionToCheck = chessBoard.getPositionAt((chessBoard.getPositionAt(testPosition.getFile(), testPosition.getRank())));
+                    if (positionToCheck != null) {
+                        if (positionToCheck.isEmpty())
                             legalMoves.add(positionToCheck);
+                        else {
+                            if (positionToCheck.getPiece().pieceColor != pieceColor) {
+                                legalMoves.add(positionToCheck);
+                            }
+                            break;
                         }
-                        break;
-                    }
-
-                }
-                testPosition = chessBoard.getPositionAt((char) (testPosition.getFile() + 1), testPosition.getRank() + 1);
-
-            }
-        }
-
-        //check all right diagonal backward
-        testPosition = chessBoard.getPositionAt((char) (currentPosition.getFile() + 1), currentPosition.getRank() - 1);
-        if (testPosition != null) {
-
-            while (testPosition != null) {
-
-                Position positionToCheck = chessBoard.getPositionAt((chessBoard.getPositionAt(testPosition.getFile(), testPosition.getRank())));
-                if (positionToCheck != null) {
-                    if (positionToCheck.isEmpty())
-                        legalMoves.add(positionToCheck);
-                    else {
-                        if (positionToCheck.getPiece().pieceColor != pieceColor) {
-                            legalMoves.add(positionToCheck);
-                        }
-                        break;
 
                     }
 
-                }
-                testPosition = chessBoard.getPositionAt((char) (testPosition.getFile() + 1), testPosition.getRank() - 1);
-            }
-        }
-        //check all left diagonal forward
-        testPosition = chessBoard.getPositionAt((char) (currentPosition.getFile() - 1), currentPosition.getRank() + 1);
-        if (testPosition != null) {
-
-            while (testPosition != null) {
-
-                Position positionToCheck = chessBoard.getPositionAt((chessBoard.getPositionAt(testPosition.getFile(), testPosition.getRank())));
-                if (positionToCheck != null) {
-                    if (positionToCheck.isEmpty())
-                        legalMoves.add(positionToCheck);
-                    else {
-                        if (positionToCheck.getPiece().pieceColor != pieceColor) {
-                            legalMoves.add(positionToCheck);
-                        }
-                        break;
-
-                    }
+                    testPosition = chessBoard.getPositionAt((char) (testPosition.getFile() + offsets[i][0]), testPosition.getRank() + offsets[i][1]);
 
                 }
-                testPosition = chessBoard.getPositionAt((char) (testPosition.getFile() - 1), testPosition.getRank() + 1);
-            }
-        }
-
-        //check all left diagonal backward
-        testPosition = chessBoard.getPositionAt((char) (currentPosition.getFile() - 1), currentPosition.getRank() - 1);
-        if (testPosition != null) {
-
-            while (testPosition != null) {
-
-                Position positionToCheck = chessBoard.getPositionAt((chessBoard.getPositionAt(testPosition.getFile(), testPosition.getRank())));
-                if (positionToCheck != null) {
-                    if (positionToCheck.isEmpty())
-                        legalMoves.add(positionToCheck);
-                    else {
-                        if (positionToCheck.getPiece().pieceColor != pieceColor) {
-                            legalMoves.add(positionToCheck);
-                        }
-                        break;
-
-                    }
-
-                }
-                testPosition = chessBoard.getPositionAt((char) (testPosition.getFile() - 1), testPosition.getRank() - 1);
             }
         }
     }
@@ -110,4 +52,5 @@ public class Bishop extends Piece {
     public String toString() {
         return "Bishop";
     }
+
 }

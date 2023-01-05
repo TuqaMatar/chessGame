@@ -15,15 +15,26 @@ public class ChessManager {
     public ChessBoard getChessBoard() {
         return chessBoard;
     }
-    
+
+    public void setChessBoard(ChessBoard chessBoard) {
+        this.chessBoard = chessBoard;
+    }
+
     public Position getCheckedPosition() {
         return checkedPosition;
+    }
+
+    public void setCheckedPosition(Position checkedPosition) {
+        this.checkedPosition = checkedPosition;
     }
 
     Position checkedPosition;
 
     public ChessManager(ChessBoard chessBoard){
         this.chessBoard = chessBoard;
+    }
+    public boolean isCheckingForCheckmate() {
+        return isCheckingForCheckmate;
     }
 
     public void setCheckingForCheckmate(boolean checkingForCheckmate) {
