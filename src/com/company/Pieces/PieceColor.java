@@ -1,4 +1,4 @@
-package com.company;
+package com.company.Pieces;
 
 public enum PieceColor {
     WHITE ,
@@ -8,11 +8,11 @@ public enum PieceColor {
     public String toString() {
         switch (this){
             case WHITE:
-                return "white player";
+                return "WHITE";
             case BlACK:
-                return "black player";
+                return "BLACK";
         }
-        return "white player";
+        return "WHITE";
     }
 
 }

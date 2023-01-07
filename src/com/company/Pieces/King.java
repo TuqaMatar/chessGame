@@ -1,19 +1,15 @@
 package com.company.Pieces;
 
 import com.company.ChessBoard;
-import com.company.PieceColor;
 import com.company.Position;
 
 import java.util.ArrayList;
 
 public class King extends Piece{
-
     public King(PieceColor pieceColor) {
         super( pieceColor);
     }
     ArrayList<Position> kingPossibleMoves;
-
-
     public ArrayList<Position> getKingPossibleMoves(Position currentPosition){
         ArrayList<Position> positionsKingCanAttack = new ArrayList<Position>();
         positionsKingCanAttack.add(new Position((char) (currentPosition.getFile()), (char) (currentPosition.getRank() + 1)));

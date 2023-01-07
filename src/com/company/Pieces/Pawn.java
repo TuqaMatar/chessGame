@@ -1,6 +1,5 @@
 package com.company.Pieces;
 import com.company.ChessBoard;
-import com.company.PieceColor;
 import com.company.Position;
 import java.util.ArrayList;
 

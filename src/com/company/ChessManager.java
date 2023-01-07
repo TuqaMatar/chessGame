@@ -2,158 +2,159 @@ package com.company;
 
 import com.company.Pieces.King;
 import com.company.Pieces.Piece;
+import com.company.Pieces.PieceColor;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.company.Player.BlACK;
+import static com.company.Player.WHITE;
+
 public class ChessManager {
     ChessBoard chessBoard;
-
+    Position checkedPosition;
     boolean isCheckingForCheckmate;
 
-    public ChessBoard getChessBoard() {
-        return chessBoard;
+    public void updatePiecesMoves(){
+        chessBoard.updatePiecesLegalMoves();
+        chessBoard.updateAttackedPieces();
     }
 
-    public void setChessBoard(ChessBoard chessBoard) {
+    public ChessManager(ChessBoard chessBoard) {
         this.chessBoard = chessBoard;
-    }
-
-    public Position getCheckedPosition() {
-        return checkedPosition;
-    }
-
-    public void setCheckedPosition(Position checkedPosition) {
-        this.checkedPosition = checkedPosition;
-    }
-
-    Position checkedPosition;
-
-    public ChessManager(ChessBoard chessBoard){
-        this.chessBoard = chessBoard;
-    }
-    public boolean isCheckingForCheckmate() {
-        return isCheckingForCheckmate;
     }
 
     public void setCheckingForCheckmate(boolean checkingForCheckmate) {
         isCheckingForCheckmate = checkingForCheckmate;
     }
 
-    public boolean isKingChecked() {
-        Position kingPosition;
-        for (int i = 0; i < chessBoard.size(); i++) {
-            if (chessBoard.getPositions().get(i).getPiece() instanceof King) {
-                kingPosition = chessBoard.getPositions().get(i);
-                for (int j = 0; j < chessBoard.size(); j++) {
-                    if (chessBoard.getPositions().get(j).getPiece() != null) {
-                        for (int k = 0; k < chessBoard.getPositions().get(j).getPiece().getAttackedPieces().size(); k++) {
-                            if (kingPosition == chessBoard.getPositions().get(j).getPiece().getAttackedPieces().get(k)) {
-                                checkedPosition= kingPosition;
-                                return true;
-                            }
-                        }
+    private Position getKingPosition(ChessBoard chessBoard, Player currentPlayer) {
+        ArrayList<Position> positions = chessBoard.getPositions();
+        for (int i = 0; i < positions.size(); i++) {
+            Piece checkPiece = positions.get(i).getPiece();
+
+            if (checkPiece != null) {
+                if (checkPiece instanceof King)
+                    if (currentPlayer == WHITE && checkPiece.getPieceColor() == PieceColor.WHITE
+                            || currentPlayer == BlACK && checkPiece.getPieceColor() == PieceColor.BlACK) {
+                        return positions.get(i);
                     }
-
-                }
             }
+
         }
-        return false;
-    }
-    public boolean isCheckMate(Player currentPlayer) {
-        if (isKingChecked())
-            if(kingHasNoLegalMoves(currentPlayer,checkedPosition))
-            {
-                System.out.println("King has no legal moves");
-                if(kingCannotBeBlocked(currentPlayer,checkedPosition))
-                {
-                    return true;
-
-                }
-
-            }
-
-        return false;
+        return null;
     }
 
-    private boolean kingCannotBeBlocked(Player currentPlayer,Position currentPosition) {
-        ArrayList<Position> allPositions = chessBoard.getPositions();
-        for(Position position :allPositions)
-        {
-            if(!position.isEmpty())
-            {
-                if(position.getPiece().getPieceColor() == currentPosition.getPiece().getPieceColor())
-                {
-                    Piece piece = position.getPiece();
-                    ArrayList<Position> legalPositions = piece.getLegalMoves();
+    public boolean isKingChecked(Player otherPlayer) {
+        Position kingPosition = getKingPosition(chessBoard, otherPlayer);
 
-                    // simulate a legal move
-                    for(Position legalPosition: legalPositions)
-                    {
-                        if(isLegalMove(currentPlayer,position,legalPosition))
-                        {
-//                            Position LegalPosition = chessBoard.getPositionAt(legalPosition);
-                            Position initialPosition = chessBoard.getPositionAt(position);
-                            //simulate that move
-                            legalPosition.setPiece(piece);
-                            initialPosition.setPiece(null);
+        //test if the kings position is in any of his opponents attacked pieces List
+        Player opponent = otherPlayer == WHITE ? BlACK : WHITE;
 
-                            //if it is not in check then return false;
-                            if(!isKingChecked())
-                            {
-                                return false;
-                            }
-                            else
-                            {
-                                // reverse move
-                                initialPosition.setPiece(piece);
-                                legalPosition.setPiece(null);
-                            }
-
-
-                        }
-                    }
-                }
-
-            }
-        }
-        return true;
-    }
-
-    private boolean isUnderAttack(Position position) {
-        ArrayList<Position> boardPositions = chessBoard.getPositions();
-        for (Position boardPosition : boardPositions) {
-            if(boardPosition.getPiece()!=null){
-                ArrayList<Position> attackedPositions = boardPosition.getPiece().getAttackedPieces();
-                for (Position attackedPosition : attackedPositions) {
-                    if (position.equals(attackedPosition))
-                        return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    private boolean kingHasNoLegalMoves(Player currentPlayer,Position currentPosition) {
-        King king = (King) currentPosition.getPiece();
-        ArrayList<Position> positions = king.getKingPossibleMoves(currentPosition);
+        ArrayList<Position> positions = chessBoard.getPositions();
         for (Position position : positions) {
-            if (chessBoard.getPositionAt(position) != null) {
-                if (isLegalMove(currentPlayer,currentPosition, position) && !isUnderAttack(position)) {
-                    return false;
+            if (!position.isEmpty()) {
+                Piece testPiece = position.getPiece();
+                if ((opponent == BlACK && testPiece.getPieceColor() == PieceColor.BlACK) || (
+                        opponent == WHITE && testPiece.getPieceColor() == PieceColor.WHITE
+                )) {
+                    // get opponents attacked piece lists
+                    ArrayList<Position> attackedPositions = testPiece.getAttackedPieces();
+                    if (attackedPositions.contains(kingPosition))
+                        return true;
+
                 }
             }
         }
+        return false;
+    }
 
+    public boolean isCheckMate(Player otherPlayer) {
+        if (kingHasNoLegalMoves(otherPlayer, checkedPosition)) {
+            System.out.println("King has no legal moves");
+
+            if (kingCannotBeBlocked(otherPlayer)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean kingCannotBeBlocked(Player currentPlayer) {
+        ArrayList<Position> allPositions = chessBoard.getPositions();
+        for (Position position : allPositions) {
+            if (!position.isEmpty()) {
+                Piece checkPiece = position.getPiece();
+                if ((currentPlayer == WHITE && checkPiece.getPieceColor() == PieceColor.WHITE
+                        || currentPlayer == BlACK && checkPiece.getPieceColor() == PieceColor.BlACK)) {
+
+                    ArrayList<Position> legalPositions = checkPiece.getLegalMoves();
+                    // simulate a legal move
+                    for (int i = 0 ; i<legalPositions.size() ;i++) {
+                        if (isLegalMove(currentPlayer, position, legalPositions.get(i))) {
+                            Position initialPosition = chessBoard.getPositionAt(position);
+                            Position nextLegalPosition = legalPositions.get(i);
+
+                            chessBoard.getPositionAt(nextLegalPosition).setPiece(checkPiece);
+                            chessBoard.getPositionAt(initialPosition).setPiece(null);
+                            updatePiecesMoves();
+
+                          //if it is not in check then return false;
+                            if (!isKingChecked(currentPlayer)) {
+
+                                chessBoard.getPositionAt(initialPosition).setPiece(checkPiece);
+                                chessBoard.getPositionAt(nextLegalPosition).setPiece(null);
+
+                                return false;
+                            } else {
+                                // reverse move
+                                chessBoard.getPositionAt(initialPosition).setPiece(checkPiece);
+                                chessBoard.getPositionAt(nextLegalPosition).setPiece(null);
+                            }
+                            updatePiecesMoves();
+                        }
+                    }
+                }
+
+            }
+        }
         return true;
     }
-    public boolean isNotationCorrect(String currentPosition, String nextPosition) {
-        Pattern movePattern = Pattern.compile("[a-h]+[1-8]+");
 
+    private ArrayList<Position> getAllOpponentsAttackedPositions(Player currentPlayer) {
+        Player opponent = currentPlayer == WHITE ? BlACK : WHITE;
+        ArrayList<Position> positions = chessBoard.getPositions();
+        ArrayList<Position> allAttackedPositions = new ArrayList<>();
+        for (Position position : positions) {
+            if (!position.isEmpty()) {
+                Piece piece = position.getPiece();
+                if ((opponent == WHITE && piece.getPieceColor() == PieceColor.WHITE)
+                        || ((opponent == BlACK && piece.getPieceColor() == PieceColor.BlACK))) {
+                    allAttackedPositions.addAll(piece.getAttackedPieces());
+                }
+            }
+        }
+        return allAttackedPositions;
+    }
+
+    private boolean kingHasNoLegalMoves(Player otherPlayer, Position currentPosition) {
+        Position kingPosition = getKingPosition(chessBoard, otherPlayer);
+        Piece kingPiece = kingPosition.getPiece();
+        ArrayList<Position> kingLegalMoves = kingPiece.getLegalMoves();
+        ArrayList<Position> boardAttackedPositions = getAllOpponentsAttackedPositions(otherPlayer);
+
+        for (Position position : kingLegalMoves) {
+            if (!boardAttackedPositions.contains(position))
+                return false;
+        }
+        return true;
+    }
+
+    public boolean isNotationCorrect(String currentPosition, String nextPosition) {
+        Pattern movePattern = Pattern.compile("[a-h][1-8]");
         Matcher currentPositionMatcher = movePattern.matcher(currentPosition);
         Matcher nextPositionMatcher = movePattern.matcher(nextPosition);
-
         if (!currentPositionMatcher.matches()) {
             System.out.println(currentPosition + " is not a piece on the chess board , try again");
             return false;
@@ -164,33 +165,33 @@ public class ChessManager {
         }
         return true;
     }
+
     public boolean isLegalMove(Player currentPlayer, Position currentPosition, Position nextPosition) {
         Piece chosenPiece = currentPosition.getPiece();
         if (chosenPiece == null) {
-            if(!isCheckingForCheckmate)
+            if (!isCheckingForCheckmate)
                 System.out.println("no piece exists in " + currentPosition.getFile() + currentPosition.getRank() + ", try again");
             return false;
         }
         if (!chosenPiece.isMoveLegal(currentPosition, nextPosition)) {
-            if(!isCheckingForCheckmate)
+            if (!isCheckingForCheckmate)
                 System.out.println("Move is not legal for : " + chosenPiece);
             return false;
         }
         if (chosenPiece.isBlocked(currentPosition, nextPosition, chessBoard)) {
-            if(!isCheckingForCheckmate){
+            if (!isCheckingForCheckmate) {
                 System.out.println("cannot move  : " + chosenPiece + " because its BLOCKED");
             }
             return false;
         }
-        if (chosenPiece.getPieceColor() == PieceColor.WHITE && currentPlayer == Player.BlACK && !isCheckingForCheckmate) {
+        if (chosenPiece.getPieceColor() == PieceColor.WHITE && currentPlayer == BlACK && !isCheckingForCheckmate) {
             System.out.println("Black Player cannot move white pieces , try again");
             return false;
-        } else if (chosenPiece.getPieceColor() == PieceColor.BlACK && currentPlayer == Player.WHITE && !isCheckingForCheckmate) {
+        } else if (chosenPiece.getPieceColor() == PieceColor.BlACK && currentPlayer == WHITE && !isCheckingForCheckmate) {
             System.out.println("White Player cannot move black pieces, try again");
             return false;
         }
         return true;
     }
-
 
 }

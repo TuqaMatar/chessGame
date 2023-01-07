@@ -1,8 +1,9 @@
 package com.company.Pieces;
 
 import com.company.ChessBoard;
-import com.company.PieceColor;
 import com.company.Position;
+
+import java.util.ArrayList;
 
 public class Queen extends Piece {
     public Queen(PieceColor pieceColor) {
@@ -10,78 +11,73 @@ public class Queen extends Piece {
     }
 
     public void updateDiagonalLegalPositions(Position currentPosition, ChessBoard chessBoard){
+        ArrayList<Position> startingPositions = new ArrayList<>();
+        int[][] offsets = {{+1, +1}, {+1, -1}, {-1, +1}, {-1, -1}};
+
+        startingPositions.add(chessBoard.getPositionAt((char) (currentPosition.getFile() + 1), currentPosition.getRank() + 1)); // right diagonal forward
+        startingPositions.add(chessBoard.getPositionAt((char) (currentPosition.getFile() + 1), currentPosition.getRank() - 1)); //right diagonal backward
+        startingPositions.add(chessBoard.getPositionAt((char) (currentPosition.getFile() - 1), currentPosition.getRank() + 1)); //left diagonal forward
+        startingPositions.add(chessBoard.getPositionAt((char) (currentPosition.getFile() - 1), currentPosition.getRank() - 1));//left diagonal backward
+
+        for (int i = 0; i < startingPositions.size(); i++) {
+            Position testPosition = startingPositions.get(i);
+            if (testPosition != null) {
+                while (testPosition != null) {
+                    Position positionToCheck = chessBoard.getPositionAt((chessBoard.getPositionAt(testPosition.getFile(), testPosition.getRank())));
+                    if (positionToCheck != null) {
+                        if (positionToCheck.isEmpty())
+                            legalMoves.add(positionToCheck);
+                        else {
+                            if (positionToCheck.getPiece().pieceColor != pieceColor) {
+                                legalMoves.add(positionToCheck);
+                            }
+                            break;
+                        }
+
+                    }
+
+                    testPosition = chessBoard.getPositionAt((char) (testPosition.getFile() + offsets[i][0]), testPosition.getRank() + offsets[i][1]);
+
+                }
+            }
+        }
+
 
     }
 
     public void updateCastleLikeLegalPositions(Position currentPosition, ChessBoard chessBoard){
-        //add pieces that are attacked vertically
-        //TODO change 8 to chess board dimension because that could change in the future if chess was expanded to another game ?
-        char file = currentPosition.getFile();
-        char rank = currentPosition.getRank();
+        ArrayList<Position> startingPositions = new ArrayList<>();
 
-        for (int i = Character.getNumericValue(currentPosition.getRank()-1); i >= 1; i--) {
-            if (chessBoard.getPositionAt(file, (char)(i+'0')) != null) {
+        int[][] offsets = {{0, +1}, {0, -1}, {+1, 0}, {-1, 0}};
+        startingPositions.add(chessBoard.getPositionAt((char) (currentPosition.getFile() + offsets[0][0]), currentPosition.getRank() + offsets[0][1])); // right diagonal forward
+        startingPositions.add(chessBoard.getPositionAt((char) (currentPosition.getFile() + offsets[1][0]), currentPosition.getRank() +offsets[1][1])); //right diagonal backward
+        startingPositions.add(chessBoard.getPositionAt((char) (currentPosition.getFile() + offsets[2][0]), currentPosition.getRank() + offsets[2][1])); //left diagonal forward
+        startingPositions.add(chessBoard.getPositionAt((char) (currentPosition.getFile() + offsets[3][0]), currentPosition.getRank() +offsets[3][1]));//left diagonal backward
 
-                if (chessBoard.getPositionAt(file, (char)(i+'0')).isEmpty())
-                    legalMoves.add(chessBoard.getPositionAt(file, (char)(i+'0')));
-                else {
-                    if (chessBoard.getPositionAt(file, (char)(i+'0')).getPiece().pieceColor != pieceColor) {
-                        legalMoves.add(chessBoard.getPositionAt(file, (char) (i)));
+
+        for (int i = 0; i < startingPositions.size(); i++) {
+            Position testPosition = startingPositions.get(i);
+            if (testPosition != null) {
+                while (testPosition != null) {
+                    Position positionToCheck = chessBoard.getPositionAt((chessBoard.getPositionAt(testPosition.getFile(), testPosition.getRank())));
+                    if (positionToCheck != null) {
+                        if (positionToCheck.isEmpty())
+                            legalMoves.add(positionToCheck);
+                        else {
+                            if (positionToCheck.getPiece().pieceColor != pieceColor) {
+                                legalMoves.add(positionToCheck);
+                            }
+                            break;
+                        }
+
                     }
-                    break;
+
+                    testPosition = chessBoard.getPositionAt((char) (testPosition.getFile() + offsets[i][0]), testPosition.getRank() + offsets[i][1]);
+
                 }
             }
-
         }
 
-        for ( int i = Character.getNumericValue(currentPosition.getRank()+1); i <= 8; i++) {
-            if (chessBoard.getPositionAt(file, (char)(i+'0')) != null) {
-                if (chessBoard.getPositionAt(file, (char)(i+'0')).isEmpty())
-                    legalMoves.add(chessBoard.getPositionAt(file, (char)(i+'0')));
-                else {
-                    if (chessBoard.getPositionAt(file, (char)(i+'0')).getPiece().pieceColor != pieceColor) {
-                        legalMoves.add(chessBoard.getPositionAt(file, (char)(i+'0')));
-                    }
-                    break;
-                }
-            }
-
-        }
-
-
-        //add pieces that are attacked horizontally
-        for (char i = (char) (currentPosition.getFile() -1); i >= 'a'; i--) {
-            if (chessBoard.getPositionAt(i, rank) != null) {
-
-                if (chessBoard.getPositionAt(i, rank).isEmpty())
-                    legalMoves.add(chessBoard.getPositionAt(i, rank));
-                else {
-                    if (chessBoard.getPositionAt(i, rank).getPiece().pieceColor != pieceColor) {
-                        legalMoves.add(chessBoard.getPositionAt(i, rank));
-                    }
-                    break;
-                }
-            }
-
-
-        }
-
-        for (char i = (char) (currentPosition.getFile() + 1); i <= 'h'; i++) {
-            if (chessBoard.getPositionAt(i, rank) != null) {
-
-                if (chessBoard.getPositionAt(i, rank).isEmpty())
-                    legalMoves.add(chessBoard.getPositionAt(i, rank));
-                else {
-                    if (chessBoard.getPositionAt(i, rank).getPiece().pieceColor != pieceColor) {
-                        legalMoves.add(chessBoard.getPositionAt(i, rank));
-                    }
-                    break;
-                }
-
-
-            }
-
-        }
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.company.Pieces;
 
 import com.company.ChessBoard;
-import com.company.PieceColor;
 import com.company.Position;
 
 import java.util.ArrayList;
@@ -9,6 +8,7 @@ import java.util.ArrayList;
 public abstract class Piece {
     PieceColor pieceColor;
     ArrayList<Position> attackedPieces;
+    ArrayList<Position> legalMoves;
 
     public Piece(PieceColor pieceColor){
         this.pieceColor = pieceColor;
@@ -23,7 +23,6 @@ public abstract class Piece {
         return attackedPieces;
     }
 
-    ArrayList<Position> legalMoves;
 
     public  boolean isBlocked(Position currentPosition , Position nextPosition , ChessBoard board)
     {

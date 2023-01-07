@@ -1,14 +1,22 @@
 package com.company;
+
 import com.company.Pieces.*;
 
 import java.util.ArrayList;
 
-public class ChessBoard {
+public class ChessBoard implements Cloneable {
     final int CHESS_BOARD_SIZE = 64;
     ArrayList<Position> positions;
-    public ChessBoard() {
-        positions = initializeBoard();
+
+    private static  ChessBoard chessBoard = null ;
+
+    public static ChessBoard getInstance(){
+        if(chessBoard == null)
+            chessBoard = new ChessBoard();
+        return chessBoard;
     }
+    private ChessBoard(){}
+
     public Position getPositionAt(char file, int rank) {
         //binary search to lower complexity
         Position searchedPosition = new Position(file, (char) rank);
@@ -29,6 +37,7 @@ public class ChessBoard {
         }
         return null;
     }
+
     public Position getPositionAt(Position position) {
         for (Position value : positions) {
             if (value.file == position.getFile() && value.rank == position.getRank()) {
@@ -99,24 +108,29 @@ public class ChessBoard {
         return positions;
     }
 
+    public void setPositions(ArrayList<Position> positions) {
+        this.positions = positions;
+    }
+
     public int size() {
         return CHESS_BOARD_SIZE;
     }
 
     public void updateAttackedPieces() {
-        for (int i = 0; i < positions.size(); i++) {
-            if (!positions.get(i).isEmpty()) {
-                positions.get(i).getPiece().updateAttackedPieces(positions.get(i), this);
+        for (Position position : positions) {
+            if (!position.isEmpty()) {
+                position.getPiece().updateAttackedPieces(position, this);
 
             }
         }
     }
 
     public void updatePiecesLegalMoves() {
-        for (int i = 0; i < positions.size(); i++) {
-            if (!positions.get(i).isEmpty()) {
-                positions.get(i).getPiece().updateLegalMoves(positions.get(i), this);
+        for (Position position : positions) {
+            if (!position.isEmpty()) {
+                position.getPiece().updateLegalMoves(position, this);
             }
         }
     }
+
 }

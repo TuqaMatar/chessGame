@@ -8,10 +8,10 @@ enum Player {
     public String toString() {
         switch (this){
             case WHITE:
-                return "white player";
+                return "WHITE PLAYER";
             case BlACK:
-                return "black player";
+                return "BLACK PLAYER ";
         }
-        return "white player";
+        return "WHITE ";
     }
 }

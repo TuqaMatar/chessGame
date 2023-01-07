@@ -1,7 +1,6 @@
 package com.company.Pieces;
 
 import com.company.ChessBoard;
-import com.company.PieceColor;
 import com.company.Position;
 
 import java.util.ArrayList;
@@ -10,7 +9,6 @@ public class Castle extends Piece{
     public Castle(PieceColor pieceColor) {
         super(pieceColor);
     }
-
 
     @Override
     public void updateLegalMoves(Position currentPosition,ChessBoard chessBoard) {

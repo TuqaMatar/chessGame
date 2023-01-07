@@ -1,12 +1,9 @@
 package com.company.Pieces;
 
 import com.company.ChessBoard;
-import com.company.PieceColor;
 import com.company.Position;
 
-import javax.swing.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Bishop extends Piece {
     public Bishop(PieceColor pieceColor) {
