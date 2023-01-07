@@ -10,7 +10,7 @@ public class Queen extends Piece {
         super(pieceColor);
     }
 
-    public void updateDiagonalLegalPositions(Position currentPosition, ChessBoard chessBoard){
+    public void updateDiagonalPositions(Position currentPosition, ChessBoard chessBoard){
         ArrayList<Position> startingPositions = new ArrayList<>();
         int[][] offsets = {{+1, +1}, {+1, -1}, {-1, +1}, {-1, -1}};
 
@@ -45,7 +45,7 @@ public class Queen extends Piece {
 
     }
 
-    public void updateCastleLikeLegalPositions(Position currentPosition, ChessBoard chessBoard){
+    public void updateOrthogonalPositions(Position currentPosition, ChessBoard chessBoard){
         ArrayList<Position> startingPositions = new ArrayList<>();
 
         int[][] offsets = {{0, +1}, {0, -1}, {+1, 0}, {-1, 0}};
@@ -84,8 +84,8 @@ public class Queen extends Piece {
     public void updateLegalMoves(Position currentPosition, ChessBoard chessBoard) {
         legalMoves.clear();
 
-        updateDiagonalLegalPositions( currentPosition,  chessBoard);
-        updateCastleLikeLegalPositions( currentPosition,  chessBoard);
+        updateDiagonalPositions( currentPosition,  chessBoard);
+        updateOrthogonalPositions( currentPosition,  chessBoard);
     }
 
     @Override

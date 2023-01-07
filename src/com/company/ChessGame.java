@@ -21,7 +21,6 @@ public class ChessGame {
             this.currentPlayer = Player.WHITE;
     }
 
-
     public void start() {
         int moves = 0;
         boolean wrongMove = false;
@@ -83,7 +82,6 @@ public class ChessGame {
             Player otherPlayer = currentPlayer == Player.WHITE ? Player.BlACK : Player.WHITE;
             if (chessManager.isKingChecked(otherPlayer)) {
                 System.out.println("KING IS IN CHECK");
-
                 chessManager.setCheckingForCheckmate(true);
                 if (chessManager.isCheckMate(otherPlayer)) {
                     System.out.println("CHECKMATE for : " + otherPlayer);

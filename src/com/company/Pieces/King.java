@@ -7,25 +7,8 @@ import java.util.ArrayList;
 
 public class King extends Piece{
     public King(PieceColor pieceColor) {
-        super( pieceColor);
+        super(pieceColor);
     }
-    ArrayList<Position> kingPossibleMoves;
-    public ArrayList<Position> getKingPossibleMoves(Position currentPosition){
-        ArrayList<Position> positionsKingCanAttack = new ArrayList<Position>();
-        positionsKingCanAttack.add(new Position((char) (currentPosition.getFile()), (char) (currentPosition.getRank() + 1)));
-        positionsKingCanAttack.add(new Position((char) (currentPosition.getFile() ), (char) (currentPosition.getRank() - 1)));
-        positionsKingCanAttack.add(new Position((char) (currentPosition.getFile() + 1), (char) (currentPosition.getRank() )));
-        positionsKingCanAttack.add(new Position((char) (currentPosition.getFile() -1), (char) (currentPosition.getRank())));
-
-        positionsKingCanAttack.add(new Position((char) (currentPosition.getFile() + 1), (char) (currentPosition.getRank() +1)));
-        positionsKingCanAttack.add(new Position((char) (currentPosition.getFile() +1), (char) (currentPosition.getRank() - 1)));
-        positionsKingCanAttack.add(new Position((char) (currentPosition.getFile() -1), (char) (currentPosition.getRank() +1 )));
-        positionsKingCanAttack.add(new Position((char) (currentPosition.getFile() -1), (char) (currentPosition.getRank() -1 )));
-
-        return positionsKingCanAttack;
-    }
-
-
     @Override
     public void updateAttackedPieces(Position currentPosition, ChessBoard chessBoard) {
         attackedPieces.clear();

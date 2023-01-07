@@ -11,7 +11,6 @@ public class Position {
     char file;
     char rank;
     Piece piece;
-    boolean hasPiece;
 
     public Position(char file, char rank) {
         this.file = file;
@@ -23,11 +22,11 @@ public class Position {
         this.rank = position.charAt(1);
     }
 
-    public Position(String position ,Piece piece , boolean hasPiece) {
+    public Position(String position ,Piece piece) {
         this.file = position.charAt(0);
         this.rank = position.charAt(1);
         this.piece = piece;
-        this.hasPiece = true;
+
     }
 
     public boolean isEmpty(){
